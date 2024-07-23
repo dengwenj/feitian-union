@@ -10,9 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1111"/>
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/navigation_items"/>
+        app:menu="@menu/navigation_items"
+        app:itemIconTint="@drawable/navigation_bar_color"
+        app:itemTextColor="@drawable/navigation_bar_color"
+        app:itemBackground="@null"
+        android:background="#fff" />
 </RelativeLayout>
