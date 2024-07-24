@@ -1,16 +1,18 @@
 package vip.dengwj.feitian_union.ui.activity;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import vip.dengwj.feitian_union.R;
+import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.ActivityMainBinding;
 import vip.dengwj.feitian_union.ui.fragment.HomeFragment;
-import vip.dengwj.feitian_union.utils.LogUtils;
+import vip.dengwj.feitian_union.ui.fragment.RedPackedFragment;
+import vip.dengwj.feitian_union.ui.fragment.SearchFragment;
+import vip.dengwj.feitian_union.ui.fragment.SelectedFragment;
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -20,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
      */
     // 用的 ViewBinding，就可以不用 findById 了。mainBinding 就是对应的布局文件
     private ActivityMainBinding activitymainBinding;
+    private HomeFragment homeFragment;
+    private SelectedFragment selectedFragment;
+    private RedPackedFragment redPackedFragment;
+    private SearchFragment searchFragment;
+    private FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,18 +34,26 @@ public class MainActivity extends AppCompatActivity {
         activitymainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(activitymainBinding.getRoot());
 
-        // 初始化视图
-        initView();
+        // 初始化 fragment
+        initFragment();
         // 监听
         initListener();
     }
 
-    private void initView() {
-        // 把 fragment 放在 FrameLayout 里
-        HomeFragment homeFragment = new HomeFragment();
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction transaction = fm.beginTransaction();
-        transaction.add(R.id.main_page_container_frame_layout, homeFragment);
+    private void initFragment() {
+        homeFragment = new HomeFragment();
+        selectedFragment = new SelectedFragment();
+        redPackedFragment = new RedPackedFragment();
+        searchFragment = new SearchFragment();
+        fragmentManager = getSupportFragmentManager();
+        // 初始化的 fragment
+        switchFragment(homeFragment);
+    }
+
+    private void switchFragment(BaseFragment fragment) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        // 切换 fragment
+        transaction.replace(R.id.main_page_container_frame_layout, fragment);
         transaction.commit();
     }
 
@@ -46,13 +61,13 @@ public class MainActivity extends AppCompatActivity {
         activitymainBinding.mainNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
-                LogUtils.d(MainActivity.class, "1" + item.getTitle());
+                switchFragment(homeFragment);
             } else if (itemId == R.id.selected) {
-                LogUtils.d(MainActivity.class, "2" + item.getTitle());
+                switchFragment(selectedFragment);
             } else if (itemId == R.id.red_packet) {
-                LogUtils.d(MainActivity.class, "3" + item.getTitle());
+                switchFragment(redPackedFragment);
             } else if (itemId == R.id.search) {
-                LogUtils.d(MainActivity.class, "4" + item.getTitle());
+                switchFragment(searchFragment);
             }
 
             return true;
