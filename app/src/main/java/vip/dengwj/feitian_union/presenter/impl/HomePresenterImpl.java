@@ -9,7 +9,6 @@ import retrofit2.Retrofit;
 import vip.dengwj.feitian_union.model.API;
 import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.presenter.HomePresenter;
-import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.RetrofitManager;
 import vip.dengwj.feitian_union.view.HomeCallback;
 
@@ -17,6 +16,8 @@ import vip.dengwj.feitian_union.view.HomeCallback;
  * presenter 处理逻辑的地方，类似 spring 的 services 架构
  */
 public class HomePresenterImpl implements HomePresenter {
+    private HomeCallback homeCallback;
+
     @Override
     public void getCategories() {
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
@@ -27,7 +28,7 @@ public class HomePresenterImpl implements HomePresenter {
                 // 请求成功
                 if (response.code() == HTTP_OK) {
                     Categories categories = response.body();
-                    LogUtils.d(HomePresenterImpl.class, "categories -> " + categories);
+                    homeCallback.onCategoriesLoaded(categories);
                 }
             }
 
@@ -40,11 +41,11 @@ public class HomePresenterImpl implements HomePresenter {
 
     @Override
     public void registerCallback(HomeCallback callback) {
-
+        homeCallback = callback;
     }
 
     @Override
     public void unregisterCallback(HomeCallback callback) {
-
+        homeCallback = callback;
     }
 }

@@ -14,12 +14,18 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = loadRootView(inflater, container, savedInstanceState);
+        // 创建视图
+        initView(view);
         // 创建 Presenter
         initPresenter();
         // 加载数据
         loadData();
 
         return view;
+    }
+
+    public void initView(View rootView) {
+
     }
 
     @Override
