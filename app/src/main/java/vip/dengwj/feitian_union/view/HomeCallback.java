@@ -7,4 +7,10 @@ import vip.dengwj.feitian_union.model.domain.Categories;
  */
 public interface HomeCallback {
     void onCategoriesLoaded(Categories categories);
+
+    void onNetworkError();
+
+    void onLoading();
+
+    void onEmpty();
 }

@@ -20,6 +20,9 @@ public class HomePresenterImpl implements HomePresenter {
 
     @Override
     public void getCategories() {
+        // 先加载
+        homeCallback.onLoading();
+
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
         API api = retrofit.create(API.class);
         api.getCategories().enqueue(new Callback<Categories>() {
@@ -28,13 +31,21 @@ public class HomePresenterImpl implements HomePresenter {
                 // 请求成功
                 if (response.code() == HTTP_OK) {
                     Categories categories = response.body();
-                    homeCallback.onCategoriesLoaded(categories);
+                    if (categories == null || categories.getData().isEmpty()) {
+                        homeCallback.onEmpty();
+                    } else {
+                        homeCallback.onCategoriesLoaded(categories);
+                    }
+                } else {
+                    // 请求失败
+                    homeCallback.onNetworkError();
                 }
             }
 
             @Override
             public void onFailure(Call<Categories> call, Throwable t) {
-
+                // 请求失败
+                homeCallback.onNetworkError();
             }
         });
     }

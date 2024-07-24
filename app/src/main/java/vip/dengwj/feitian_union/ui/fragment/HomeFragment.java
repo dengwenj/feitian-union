@@ -1,6 +1,8 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
@@ -20,6 +22,11 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
     @Override
     public int loadRootViewId() {
         return R.layout.fragment_home;
+    }
+
+    @Override
+    public View loadRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.base_home_fragment_layout, container, false);
     }
 
     /**
@@ -55,9 +62,25 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
      */
     @Override
     public void onCategoriesLoaded(Categories categories) {
+        setupState(State.SUCCESS);
         if (homePagerAdapter != null) {
             homePagerAdapter.setCategory(categories);
         }
+    }
+
+    @Override
+    public void onNetworkError() {
+        setupState(State.ERROR);
+    }
+
+    @Override
+    public void onLoading() {
+        setupState(State.LOADING);
+    }
+
+    @Override
+    public void onEmpty() {
+        setupState(State.EMPTY);
     }
 
     /**
