@@ -83,6 +83,14 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
         setupState(State.EMPTY);
     }
 
+    // 网络错误，请点击重试
+    @Override
+    public void resetNetworkError() {
+        if (homePresenter != null) {
+            homePresenter.getCategories();
+        }
+    }
+
     /**
      * 取消回调的注册
      */

@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import vip.dengwj.feitian_union.R;
+import vip.dengwj.feitian_union.databinding.FragmentNetworlErrorBinding;
 
 public abstract class BaseFragment extends Fragment {
     private State currentState = State.NONE;
@@ -19,6 +20,7 @@ public abstract class BaseFragment extends Fragment {
     private View networkErrorView;
     private View emptyView;
     private FrameLayout frameLayout;
+    private FragmentNetworlErrorBinding networlErrorBinding;
 
     public enum State {
         NONE, LOADING, SUCCESS, ERROR, EMPTY
@@ -38,8 +40,22 @@ public abstract class BaseFragment extends Fragment {
         initPresenter();
         // 加载数据
         loadData();
+        // 监听事件
+        initListener();
         // 页面展示的视图
         return rootView;
+    }
+
+    private void initListener() {
+        networlErrorBinding = FragmentNetworlErrorBinding.bind(networkErrorView);
+        networlErrorBinding.networkError.setOnClickListener(v -> {
+            resetNetworkError();
+        });
+    }
+
+    // 网络错误，请点击重试，子类可以覆写
+    public void resetNetworkError() {
+
     }
 
     public View loadRootView(LayoutInflater inflater, ViewGroup container) {
