@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.databinding.ActivityMainBinding;
 import vip.dengwj.feitian_union.ui.fragment.HomeFragment;
+import vip.dengwj.feitian_union.utils.LogUtils;
 
 public class MainActivity extends AppCompatActivity {
     /**
@@ -45,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
         activitymainBinding.mainNavigation.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
-                Log.d("pumu", "1" + item.getTitle());
+                LogUtils.d(MainActivity.class, "1" + item.getTitle());
             } else if (itemId == R.id.selected) {
-                Log.d("pumu", "2" + item.getTitle());
+                LogUtils.d(MainActivity.class, "2" + item.getTitle());
             } else if (itemId == R.id.red_packet) {
-                Log.d("pumu", "3" + item.getTitle());
+                LogUtils.d(MainActivity.class, "3" + item.getTitle());
             } else if (itemId == R.id.search) {
-                Log.d("pumu", "4" + item.getTitle());
+                LogUtils.d(MainActivity.class, "4" + item.getTitle());
             }
 
             return true;
