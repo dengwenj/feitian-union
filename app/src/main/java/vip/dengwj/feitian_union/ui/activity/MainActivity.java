@@ -58,19 +58,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListener() {
-        activitymainBinding.mainNavigation.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-            if (itemId == R.id.home) {
+        activitymainBinding.tabbar.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.nav_home) {
                 switchFragment(homeFragment);
-            } else if (itemId == R.id.selected) {
+            } else if (checkedId == R.id.nav_selected) {
                 switchFragment(selectedFragment);
-            } else if (itemId == R.id.red_packet) {
+            } else if (checkedId == R.id.nav_red_packet) {
                 switchFragment(redPackedFragment);
-            } else if (itemId == R.id.search) {
+            } else if (checkedId == R.id.nav_search) {
                 switchFragment(searchFragment);
             }
-
-            return true;
         });
+
+        // activitymainBinding.mainNavigation.setOnItemSelectedListener(item -> {
+        //     int itemId = item.getItemId();
+        //     if (itemId == R.id.home) {
+        //         switchFragment(homeFragment);
+        //     } else if (itemId == R.id.selected) {
+        //         switchFragment(selectedFragment);
+        //     } else if (itemId == R.id.red_packet) {
+        //         switchFragment(redPackedFragment);
+        //     } else if (itemId == R.id.search) {
+        //         switchFragment(searchFragment);
+        //     }
+        //
+        //     return true;
+        // });
     }
 }

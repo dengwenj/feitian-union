@@ -13,14 +13,20 @@
         android:layout_height="match_parent" />
 
     <!--底部导航栏-->
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/main_navigation"
+    <vip.dengwj.feitian_union.component.tabbar.Tabbar
+        android:id="@+id/tabbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="#fff"
-        app:itemBackground="@null"
-        app:itemIconTint="@drawable/navigation_bar_color"
-        app:itemTextColor="@drawable/navigation_bar_color"
-        app:menu="@menu/navigation_items" />
+        android:layout_height="wrap_content" />
+
+    <!--底部导航栏-->
+    <!--<com.google.android.material.bottomnavigation.BottomNavigationView-->
+    <!--    android:id="@+id/main_navigation"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_alignParentBottom="true"-->
+    <!--    android:background="#fff"-->
+    <!--    app:itemBackground="@null"-->
+    <!--    app:itemIconTint="@drawable/navigation_bar_color"-->
+    <!--    app:itemTextColor="@drawable/navigation_bar_color"-->
+    <!--    app:menu="@menu/navigation_items" />-->
 </RelativeLayout>
