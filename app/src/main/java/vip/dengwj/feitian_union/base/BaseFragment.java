@@ -13,7 +13,40 @@ public abstract class BaseFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return loadRootView(inflater, container, savedInstanceState);
+        View view = loadRootView(inflater, container, savedInstanceState);
+        // 创建 Presenter
+        initPresenter();
+        // 加载数据
+        loadData();
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        release();
+    }
+
+    /**
+     * 销毁
+     */
+    public void release() {
+
+    }
+
+    /**
+     * 创建 Presenter
+     */
+    public void initPresenter() {
+
+    }
+
+    /**
+     * 加载数据
+     */
+    public void loadData() {
+
     }
 
     private View loadRootView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
