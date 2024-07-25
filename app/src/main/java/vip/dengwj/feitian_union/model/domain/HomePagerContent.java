@@ -5,8 +5,8 @@ import java.util.List;
 public class HomePagerContent {
     private boolean success;
     private int code;
-    private String message;
-    private List<DataBean> data;
+    private String msg;
+    private DataBean data;
 
     public boolean isSuccess() {
         return success;
@@ -24,273 +24,192 @@ public class HomePagerContent {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
-    public List<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
     public static class DataBean {
-        private int category_id;
-        private Object category_name;
-        private String click_url;
-        private String commission_rate;
-        private int coupon_amount;
-        private String coupon_click_url;
-        private String coupon_end_time;
-        private Object coupon_info;
-        private int coupon_remain_count;
-        private String coupon_share_url;
-        private String coupon_start_fee;
-        private String coupon_start_time;
-        private int coupon_total_count;
-        private String item_description;
-        private long item_id;
-        private int level_one_category_id;
-        private String level_one_category_name;
-        private String nick;
-        private String pict_url;
-        private int seller_id;
-        private String shop_title;
-        private SmallImagesBean small_images;
-        private String title;
-        private int user_type;
-        private int volume;
-        private String zk_final_price;
+        private int total;
+        private int pageSize;
+        private int currentPage;
+        private boolean hasNext;
+        private boolean hasPre;
+        private int totalPage;
+        private List<ListBean> list;
 
-        public int getCategory_id() {
-            return category_id;
+        public int getTotal() {
+            return total;
         }
 
-        public void setCategory_id(int category_id) {
-            this.category_id = category_id;
+        public void setTotal(int total) {
+            this.total = total;
         }
 
-        public Object getCategory_name() {
-            return category_name;
+        public int getPageSize() {
+            return pageSize;
         }
 
-        public void setCategory_name(Object category_name) {
-            this.category_name = category_name;
+        public void setPageSize(int pageSize) {
+            this.pageSize = pageSize;
         }
 
-        public String getClick_url() {
-            return click_url;
+        public int getCurrentPage() {
+            return currentPage;
         }
 
-        public void setClick_url(String click_url) {
-            this.click_url = click_url;
+        public void setCurrentPage(int currentPage) {
+            this.currentPage = currentPage;
         }
 
-        public String getCommission_rate() {
-            return commission_rate;
+        public boolean isHasNext() {
+            return hasNext;
         }
 
-        public void setCommission_rate(String commission_rate) {
-            this.commission_rate = commission_rate;
+        public void setHasNext(boolean hasNext) {
+            this.hasNext = hasNext;
         }
 
-        public int getCoupon_amount() {
-            return coupon_amount;
+        public boolean isHasPre() {
+            return hasPre;
         }
 
-        public void setCoupon_amount(int coupon_amount) {
-            this.coupon_amount = coupon_amount;
+        public void setHasPre(boolean hasPre) {
+            this.hasPre = hasPre;
         }
 
-        public String getCoupon_click_url() {
-            return coupon_click_url;
+        public int getTotalPage() {
+            return totalPage;
         }
 
-        public void setCoupon_click_url(String coupon_click_url) {
-            this.coupon_click_url = coupon_click_url;
+        public void setTotalPage(int totalPage) {
+            this.totalPage = totalPage;
         }
 
-        public String getCoupon_end_time() {
-            return coupon_end_time;
+        public List<ListBean> getList() {
+            return list;
         }
 
-        public void setCoupon_end_time(String coupon_end_time) {
-            this.coupon_end_time = coupon_end_time;
+        public void setList(List<ListBean> list) {
+            this.list = list;
         }
 
-        public Object getCoupon_info() {
-            return coupon_info;
-        }
+        public static class ListBean {
+            private String cover;
+            private String source;
+            private String title;
+            private double couponAmount;
+            private String zkFinalPrice;
+            private String couponShareUrl;
+            private int couponTotalCount;
+            private int couponRemainCount;
+            private int sellCount;
+            private String justPrice;
 
-        public void setCoupon_info(Object coupon_info) {
-            this.coupon_info = coupon_info;
-        }
-
-        public int getCoupon_remain_count() {
-            return coupon_remain_count;
-        }
-
-        public void setCoupon_remain_count(int coupon_remain_count) {
-            this.coupon_remain_count = coupon_remain_count;
-        }
-
-        public String getCoupon_share_url() {
-            return coupon_share_url;
-        }
-
-        public void setCoupon_share_url(String coupon_share_url) {
-            this.coupon_share_url = coupon_share_url;
-        }
-
-        public String getCoupon_start_fee() {
-            return coupon_start_fee;
-        }
-
-        public void setCoupon_start_fee(String coupon_start_fee) {
-            this.coupon_start_fee = coupon_start_fee;
-        }
-
-        public String getCoupon_start_time() {
-            return coupon_start_time;
-        }
-
-        public void setCoupon_start_time(String coupon_start_time) {
-            this.coupon_start_time = coupon_start_time;
-        }
-
-        public int getCoupon_total_count() {
-            return coupon_total_count;
-        }
-
-        public void setCoupon_total_count(int coupon_total_count) {
-            this.coupon_total_count = coupon_total_count;
-        }
-
-        public String getItem_description() {
-            return item_description;
-        }
-
-        public void setItem_description(String item_description) {
-            this.item_description = item_description;
-        }
-
-        public long getItem_id() {
-            return item_id;
-        }
-
-        public void setItem_id(long item_id) {
-            this.item_id = item_id;
-        }
-
-        public int getLevel_one_category_id() {
-            return level_one_category_id;
-        }
-
-        public void setLevel_one_category_id(int level_one_category_id) {
-            this.level_one_category_id = level_one_category_id;
-        }
-
-        public String getLevel_one_category_name() {
-            return level_one_category_name;
-        }
-
-        public void setLevel_one_category_name(String level_one_category_name) {
-            this.level_one_category_name = level_one_category_name;
-        }
-
-        public String getNick() {
-            return nick;
-        }
-
-        public void setNick(String nick) {
-            this.nick = nick;
-        }
-
-        public String getPict_url() {
-            return pict_url;
-        }
-
-        public void setPict_url(String pict_url) {
-            this.pict_url = pict_url;
-        }
-
-        public int getSeller_id() {
-            return seller_id;
-        }
-
-        public void setSeller_id(int seller_id) {
-            this.seller_id = seller_id;
-        }
-
-        public String getShop_title() {
-            return shop_title;
-        }
-
-        public void setShop_title(String shop_title) {
-            this.shop_title = shop_title;
-        }
-
-        public SmallImagesBean getSmall_images() {
-            return small_images;
-        }
-
-        public void setSmall_images(SmallImagesBean small_images) {
-            this.small_images = small_images;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
-        }
-
-        public int getUser_type() {
-            return user_type;
-        }
-
-        public void setUser_type(int user_type) {
-            this.user_type = user_type;
-        }
-
-        public int getVolume() {
-            return volume;
-        }
-
-        public void setVolume(int volume) {
-            this.volume = volume;
-        }
-
-        public String getZk_final_price() {
-            return zk_final_price;
-        }
-
-        public void setZk_final_price(String zk_final_price) {
-            this.zk_final_price = zk_final_price;
-        }
-
-        public static class SmallImagesBean {
-            private List<String> string;
-
-            public List<String> getString() {
-                return string;
+            public String getCover() {
+                return cover;
             }
 
-            public void setString(List<String> string) {
-                this.string = string;
+            public void setCover(String cover) {
+                this.cover = cover;
+            }
+
+            public String getSource() {
+                return source;
+            }
+
+            public void setSource(String source) {
+                this.source = source;
+            }
+
+            public String getTitle() {
+                return title;
+            }
+
+            public void setTitle(String title) {
+                this.title = title;
+            }
+
+            public double getCouponAmount() {
+                return couponAmount;
+            }
+
+            public void setCouponAmount(int couponAmount) {
+                this.couponAmount = couponAmount;
+            }
+
+            public String getZkFinalPrice() {
+                return zkFinalPrice;
+            }
+
+            public void setZkFinalPrice(String zkFinalPrice) {
+                this.zkFinalPrice = zkFinalPrice;
+            }
+
+            public String getCouponShareUrl() {
+                return couponShareUrl;
+            }
+
+            public void setCouponShareUrl(String couponShareUrl) {
+                this.couponShareUrl = couponShareUrl;
+            }
+
+            public int getCouponTotalCount() {
+                return couponTotalCount;
+            }
+
+            public void setCouponTotalCount(int couponTotalCount) {
+                this.couponTotalCount = couponTotalCount;
+            }
+
+            public int getCouponRemainCount() {
+                return couponRemainCount;
+            }
+
+            public void setCouponRemainCount(int couponRemainCount) {
+                this.couponRemainCount = couponRemainCount;
+            }
+
+            public int getSellCount() {
+                return sellCount;
+            }
+
+            public void setSellCount(int sellCount) {
+                this.sellCount = sellCount;
+            }
+
+            public String getJustPrice() {
+                return justPrice;
+            }
+
+            public void setJustPrice(String justPrice) {
+                this.justPrice = justPrice;
             }
 
             @Override
             public String toString() {
-                return "SmallImagesBean{" +
-                        "string=" + string +
+                return "ListBean{" +
+                        "cover='" + cover + '\'' +
+                        ", source='" + source + '\'' +
+                        ", title='" + title + '\'' +
+                        ", couponAmount=" + couponAmount +
+                        ", zkFinalPrice='" + zkFinalPrice + '\'' +
+                        ", couponShareUrl='" + couponShareUrl + '\'' +
+                        ", couponTotalCount=" + couponTotalCount +
+                        ", couponRemainCount=" + couponRemainCount +
+                        ", sellCount=" + sellCount +
+                        ", justPrice='" + justPrice + '\'' +
                         '}';
             }
         }
@@ -298,32 +217,13 @@ public class HomePagerContent {
         @Override
         public String toString() {
             return "DataBean{" +
-                    "category_id=" + category_id +
-                    ", category_name=" + category_name +
-                    ", click_url='" + click_url + '\'' +
-                    ", commission_rate='" + commission_rate + '\'' +
-                    ", coupon_amount=" + coupon_amount +
-                    ", coupon_click_url='" + coupon_click_url + '\'' +
-                    ", coupon_end_time='" + coupon_end_time + '\'' +
-                    ", coupon_info=" + coupon_info +
-                    ", coupon_remain_count=" + coupon_remain_count +
-                    ", coupon_share_url='" + coupon_share_url + '\'' +
-                    ", coupon_start_fee='" + coupon_start_fee + '\'' +
-                    ", coupon_start_time='" + coupon_start_time + '\'' +
-                    ", coupon_total_count=" + coupon_total_count +
-                    ", item_description='" + item_description + '\'' +
-                    ", item_id=" + item_id +
-                    ", level_one_category_id=" + level_one_category_id +
-                    ", level_one_category_name='" + level_one_category_name + '\'' +
-                    ", nick='" + nick + '\'' +
-                    ", pict_url='" + pict_url + '\'' +
-                    ", seller_id=" + seller_id +
-                    ", shop_title='" + shop_title + '\'' +
-                    ", small_images=" + small_images +
-                    ", title='" + title + '\'' +
-                    ", user_type=" + user_type +
-                    ", volume=" + volume +
-                    ", zk_final_price='" + zk_final_price + '\'' +
+                    "total=" + total +
+                    ", pageSize=" + pageSize +
+                    ", currentPage=" + currentPage +
+                    ", hasNext=" + hasNext +
+                    ", hasPre=" + hasPre +
+                    ", totalPage=" + totalPage +
+                    ", list=" + list +
                     '}';
         }
     }
@@ -333,7 +233,7 @@ public class HomePagerContent {
         return "HomePagerContent{" +
                 "success=" + success +
                 ", code=" + code +
-                ", message='" + message + '\'' +
+                ", msg='" + msg + '\'' +
                 ", data=" + data +
                 '}';
     }

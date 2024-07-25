@@ -8,7 +8,7 @@ import java.util.List;
 public class Categories {
     private boolean success;
     private int code;
-    private String message;
+    private String msg;
     private List<DataBean> data;
 
     public boolean isSuccess() {
@@ -27,12 +27,12 @@ public class Categories {
         this.code = code;
     }
 
-    public String getMessage() {
-        return message;
+    public String getMsg() {
+        return msg;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setMsg(String msg) {
+        this.msg = msg;
     }
 
     public List<DataBean> getData() {
@@ -44,41 +44,28 @@ public class Categories {
     }
 
     public static class DataBean {
-        private int id;
+        private int materialId;
         private String title;
 
-        public int getId() {
-            return id;
+        public DataBean(int materialId, String title) {
+            this.materialId = materialId;
+            this.title = title;
         }
 
-        public void setId(int id) {
-            this.id = id;
+        public int getMaterialId() {
+            return materialId;
         }
 
-        public String getTitle() {
-            return title;
+        public void setMaterialId(int materialId) {
+            this.materialId = materialId;
         }
 
         public void setTitle(String title) {
             this.title = title;
         }
 
-        @Override
-        public String toString() {
-            return "DataBean{" +
-                    "id=" + id +
-                    ", title='" + title + '\'' +
-                    '}';
+        public String getTitle() {
+            return title;
         }
-    }
-
-    @Override
-    public String toString() {
-        return "Categories{" +
-                "success=" + success +
-                ", code=" + code +
-                ", message='" + message + '\'' +
-                ", data=" + data +
-                '}';
     }
 }
