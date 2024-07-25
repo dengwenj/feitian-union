@@ -7,7 +7,7 @@ import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 // 回调函数 -> 跟数据做的事情
 public interface CategoryPagerCallback {
     // 数据加载回来
-    void onContentLoaded(List<HomePagerContent.DataBean.ListBean> list);
+    void onContentLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId);
 
     // 加载中
     void onLoading(int categoryId);
@@ -23,8 +23,8 @@ public interface CategoryPagerCallback {
     void onLoaderMoreEmpty(int categoryId);
 
     // 加载更多数据
-    void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list);
+    void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId);
 
     // 轮播图数据
-    void onLooperListLoaded(List<HomePagerContent.DataBean.ListBean> list);
+    void onLooperListLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId);
 }

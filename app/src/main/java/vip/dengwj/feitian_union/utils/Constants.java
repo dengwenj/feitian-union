@@ -6,4 +6,5 @@ public class Constants {
     // home pager fragment bundle key
     public static final String KEY_HOME_PAGER_TITLE = "key_home_pager_title";
     public static final String KEY_HOME_PAGER_MATERIAL_ID = "KEY_HOME_PAGER_MATERIAL_ID";
+    public static final String KEY_HOME_PAGER_POSITION = "KEY_HOME_PAGER_POSITION";
 }

@@ -2,7 +2,11 @@ package vip.dengwj.feitian_union.presenter.impl;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
+import android.util.Log;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -22,8 +26,6 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
     private static final Integer defaultPage = 1;
 
-    private CategoryPagerCallback categoryPagerCallback;
-
     // 单例
     private CategoryPagerPresenterImpl() {
 
@@ -31,7 +33,7 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
     private static CategoryPagerPresenter instance = null;
 
-    public static CategoryPagerPresenter getInstance() {
+    public static CategoryPagerPresenter getInstance(int categoryId, int position) {
         if (instance == null) {
             instance = new CategoryPagerPresenterImpl();
         }
@@ -40,6 +42,10 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
     @Override
     public void getContentByCategoryId(int categoryId) {
+        for (CategoryPagerCallback callback : callbacks) {
+            callback.onLoading(categoryId);
+        }
+
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
         API api = retrofit.create(API.class);
         // 没有该 categoryId 才添加
@@ -53,7 +59,6 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
         }
         // url
         String url = UrlUtils.createHomePagerUrl(categoryId, targetPage);
-        LogUtils.d(CategoryPagerPresenterImpl.class, "url -> " + url);
         api.getHomePagerContent(url).enqueue(new Callback<HomePagerContent>() {
             @Override
             public void onResponse(Call<HomePagerContent> call, Response<HomePagerContent> response) {
@@ -62,13 +67,9 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
                 if (response.code() == HTTP_OK) {
                     HomePagerContent homePagerContent = response.body();
                     assert homePagerContent != null;
-                    if (homePagerContent.isSuccess()) {
-                        if (categoryPagerCallback == null) return;
-                        categoryPagerCallback.onContentLoaded(homePagerContent.getData().getList());
-                    } else {
-                        LogUtils.d(CategoryPagerPresenterImpl.class, "出错啦00");
-                    }
+                    handleHomePageContentResult(homePagerContent, categoryId);
                 } else {
+                    handleNetworkError(categoryId);
                     LogUtils.d(CategoryPagerPresenterImpl.class, "出错啦11");
                 }
             }
@@ -78,6 +79,26 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
                 LogUtils.d(CategoryPagerPresenterImpl.class, "出错啦22" + t.getMessage());
             }
         });
+    }
+
+    private void handleNetworkError(int categoryId) {
+        for (CategoryPagerCallback callback : callbacks) {
+            callback.onError(categoryId);
+        }
+    }
+
+    private void handleHomePageContentResult(HomePagerContent homePagerContent, int categoryId) {
+        LogUtils.d(CategoryPagerPresenterImpl.class, "callbacks -> " + callbacks.size());
+        LogUtils.d(CategoryPagerPresenterImpl.class, "homePagerContent -> " + homePagerContent);
+        // 通过 categoryId 去找到
+        // 通知 UI 层更新数据
+        for (CategoryPagerCallback callback : callbacks) {
+            if (homePagerContent.getData() == null || homePagerContent.getData().getList().isEmpty()) {
+                callback.onEmpty(categoryId);
+            } else {
+                callback.onContentLoaded(homePagerContent.getData().getList(), categoryId);
+            }
+        }
     }
 
     @Override
@@ -90,13 +111,17 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
     }
 
+    private final List<CategoryPagerCallback> callbacks = new ArrayList<>();
+
     @Override
     public void registerCallback(CategoryPagerCallback callback) {
-        categoryPagerCallback = callback;
+        if (!callbacks.contains(callback)) {
+            callbacks.add(callback);
+        }
     }
 
     @Override
     public void unregisterCallback(CategoryPagerCallback callback) {
-        categoryPagerCallback = null;
+        callbacks.remove(callback);
     }
 }

@@ -22,7 +22,7 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return HomePagerFragment.newInstance(list.get(position));
+        return HomePagerFragment.newInstance(list.get(position), position);
     }
 
     @Override
