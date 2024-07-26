@@ -2,9 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/item_page_bg"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
     android:orientation="horizontal">
 
     <ImageView
+        android:id="@+id/cover"
+        android:layout_gravity="center"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@mipmap/search_press" />
@@ -14,15 +21,21 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:textSize="12dp"
             android:text="你好全口径无可抗拒即可请尽快借款金额金额为剑桥科技看我尽快几块钱阿胶请叫我科教科" />
 
         <TextView
+            android:id="@+id/sheng"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/text_bg"
@@ -31,7 +44,7 @@
             android:paddingRight="6dp"
             android:paddingBottom="2dp"
             android:textSize="12dp"
-            android:text="天猫"
+            android:text="@string/sheng"
             android:textColor="#fff" />
 
         <LinearLayout
@@ -39,6 +52,7 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/quanhou"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="券后"
@@ -46,11 +60,30 @@
                 android:textSize="12dp" />
 
             <TextView
+                android:id="@+id/new_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="￥39.90"
+                android:text="155.00"
                 android:textColor="@color/colorPrimary" />
+
+            <TextView
+                android:id="@+id/old_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/old_price"
+                android:textSize="12dp"
+                android:textColor="#b9b7b8" />
+
+            <TextView
+                android:id="@+id/goumai"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="@string/goumai"
+                android:textSize="12dp"
+                android:textColor="#b9b7b8" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

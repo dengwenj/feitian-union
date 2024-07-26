@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">飞天联盟</string>
+    <string name="sheng">省%1$s元</string>
+    <string name="old_price">￥%1$s</string>
+    <string name="goumai">%1$d人已经购买</string>
 </resources>
