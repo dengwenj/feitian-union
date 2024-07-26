@@ -12,9 +12,11 @@ import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.FragmentHomePagerBinding;
 import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
+import vip.dengwj.feitian_union.model.domain.LoopList;
 import vip.dengwj.feitian_union.presenter.CategoryPagerPresenter;
 import vip.dengwj.feitian_union.presenter.impl.CategoryPagerPresenterImpl;
 import vip.dengwj.feitian_union.ui.adapter.HomePagerItemAdapter;
+import vip.dengwj.feitian_union.ui.adapter.LooperAdapter;
 import vip.dengwj.feitian_union.utils.Constants;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.view.CategoryPagerCallback;
@@ -25,6 +27,7 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     private int materialId;
     private vip.dengwj.feitian_union.databinding.FragmentHomePagerBinding fragmentHomePagerBinding;
     private HomePagerItemAdapter pagerItemAdapter;
+    private LooperAdapter looperAdapter;
 
     public static HomePagerFragment newInstance(Categories.DataBean category, int position) {
         HomePagerFragment homePagerFragment = new HomePagerFragment();
@@ -45,6 +48,15 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     public void initView(View rootView) {
         fragmentHomePagerBinding = FragmentHomePagerBinding.bind(rootView);
 
+        // 轮播图
+        looperAdapter = new LooperAdapter();
+        fragmentHomePagerBinding.looper.setAdapter(looperAdapter);
+
+        // item 是内容
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        fragmentHomePagerBinding.homePageItem.setLayoutManager(layoutManager);
+        pagerItemAdapter = new HomePagerItemAdapter();
+        fragmentHomePagerBinding.homePageItem.setAdapter(pagerItemAdapter);
         setupState(State.SUCCESS);
     }
 
@@ -63,7 +75,6 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
         if (arguments == null) {
             return;
         }
-        LogUtils.d(HomePagerFragment.class, "materialId -> " + materialId);
         categoryPagerPresenter.getContentByCategoryId(materialId);
     }
 
@@ -80,10 +91,6 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
         LogUtils.d(HomePagerFragment.class, "HomePagerFragment -> list ：" + list);
 
         // 更新 UI
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        fragmentHomePagerBinding.homePageItem.setLayoutManager(layoutManager);
-        pagerItemAdapter = new HomePagerItemAdapter();
-        fragmentHomePagerBinding.homePageItem.setAdapter(pagerItemAdapter);
         pagerItemAdapter.setData(list);
         setupState(State.SUCCESS);
     }
@@ -109,22 +116,23 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     }
 
     @Override
-    public void onLoaderMoreError(int categoryId) {
+    public void onLoaderMoreError() {
 
     }
 
     @Override
-    public void onLoaderMoreEmpty(int categoryId) {
+    public void onLoaderMoreEmpty() {
 
     }
 
     @Override
-    public void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId) {
+    public void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list) {
 
     }
 
+    // 轮播图请求回来的数据
     @Override
-    public void onLooperListLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId) {
-
+    public void onLooperListLoaded(List<LoopList.DataBean> list) {
+        looperAdapter.setData(list);
     }
 }

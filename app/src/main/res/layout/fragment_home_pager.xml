@@ -6,6 +6,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/looper"
+        android:layout_width="match_parent"
+        android:layout_height="125dp" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_page_item"
         android:layout_width="match_parent"

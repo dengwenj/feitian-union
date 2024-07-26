@@ -4,6 +4,7 @@ import java.util.List;
 
 import vip.dengwj.feitian_union.base.BaseCallback;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
+import vip.dengwj.feitian_union.model.domain.LoopList;
 
 // 回调函数 -> 跟数据做的事情
 public interface CategoryPagerCallback extends BaseCallback {
@@ -12,13 +13,13 @@ public interface CategoryPagerCallback extends BaseCallback {
 
     int getCategoryId();
 
-    void onLoaderMoreError(int categoryId);
+    void onLoaderMoreError();
 
-    void onLoaderMoreEmpty(int categoryId);
+    void onLoaderMoreEmpty();
 
     // 加载更多数据
-    void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId);
+    void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list);
 
     // 轮播图数据
-    void onLooperListLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId);
+    void onLooperListLoaded(List<LoopList.DataBean> list);
 }

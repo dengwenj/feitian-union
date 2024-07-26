@@ -13,6 +13,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import vip.dengwj.feitian_union.model.API;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
+import vip.dengwj.feitian_union.model.domain.LoopList;
 import vip.dengwj.feitian_union.presenter.CategoryPagerPresenter;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.RetrofitManager;
@@ -48,6 +49,30 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
         API api = retrofit.create(API.class);
+
+        // 轮播图数据
+        // TODO 只请求一次
+        api.getLoopList(3).enqueue(new Callback<LoopList>() {
+            @Override
+            public void onResponse(Call<LoopList> call, Response<LoopList> response) {
+                if (response.code() == HTTP_OK) {
+                    LoopList loopList = response.body();
+                    for (CategoryPagerCallback callback : callbacks) {
+                        if (callback.getCategoryId() == categoryId) {
+                            assert loopList != null;
+                            callback.onLooperListLoaded(loopList.getData());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoopList> call, Throwable t) {
+
+            }
+        });
+
+        // item 内容数据
         // 没有该 categoryId 才添加
         Integer targetPage = categoryIdAndPage.get(categoryId);
         if (targetPage == null) {
