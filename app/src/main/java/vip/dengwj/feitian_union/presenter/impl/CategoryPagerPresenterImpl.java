@@ -2,8 +2,6 @@ package vip.dengwj.feitian_union.presenter.impl;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
-import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +31,7 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
     private static CategoryPagerPresenter instance = null;
 
-    public static CategoryPagerPresenter getInstance(int categoryId, int position) {
+    public static CategoryPagerPresenter getInstance() {
         if (instance == null) {
             instance = new CategoryPagerPresenterImpl();
         }
@@ -43,7 +41,9 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
     @Override
     public void getContentByCategoryId(int categoryId) {
         for (CategoryPagerCallback callback : callbacks) {
-            callback.onLoading(categoryId);
+            if (callback.getCategoryId() == categoryId) {
+                callback.onLoading();
+            }
         }
 
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
@@ -63,8 +63,7 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
             @Override
             public void onResponse(Call<HomePagerContent> call, Response<HomePagerContent> response) {
                 int code = response.code();
-                LogUtils.d(CategoryPagerPresenterImpl.class, "code -> " + code);
-                if (response.code() == HTTP_OK) {
+                if (code == HTTP_OK) {
                     HomePagerContent homePagerContent = response.body();
                     assert homePagerContent != null;
                     handleHomePageContentResult(homePagerContent, categoryId);
@@ -83,7 +82,9 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
     private void handleNetworkError(int categoryId) {
         for (CategoryPagerCallback callback : callbacks) {
-            callback.onError(categoryId);
+            if (callback.getCategoryId() == categoryId) {
+                callback.onNetworkError();
+            }
         }
     }
 
@@ -93,10 +94,12 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
         // 通过 categoryId 去找到
         // 通知 UI 层更新数据
         for (CategoryPagerCallback callback : callbacks) {
-            if (homePagerContent.getData() == null || homePagerContent.getData().getList().isEmpty()) {
-                callback.onEmpty(categoryId);
-            } else {
-                callback.onContentLoaded(homePagerContent.getData().getList(), categoryId);
+            if (callback.getCategoryId() == categoryId) {
+                if (homePagerContent.getData() == null || homePagerContent.getData().getList().isEmpty()) {
+                    callback.onEmpty();
+                } else {
+                    callback.onContentLoaded(homePagerContent.getData().getList());
+                }
             }
         }
     }

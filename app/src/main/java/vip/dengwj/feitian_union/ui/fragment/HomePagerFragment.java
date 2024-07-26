@@ -49,7 +49,7 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
         materialId = arguments.getInt(Constants.KEY_HOME_PAGER_MATERIAL_ID);
         // 知道是哪个位置（页面）
         int position = arguments.getInt(Constants.KEY_HOME_PAGER_POSITION);
-        categoryPagerPresenter = CategoryPagerPresenterImpl.getInstance(materialId, position);
+        categoryPagerPresenter = CategoryPagerPresenterImpl.getInstance();
         categoryPagerPresenter.registerCallback(this);
     }
 
@@ -74,35 +74,29 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     }
 
     @Override
-    public void onContentLoaded(List<HomePagerContent.DataBean.ListBean> list, int categoryId) {
+    public void onContentLoaded(List<HomePagerContent.DataBean.ListBean> list) {
         LogUtils.d(HomePagerFragment.class, "HomePagerFragment -> list ：" + list);
-        if (categoryId != materialId) {
-            return;
-        }
+
         setupState(State.SUCCESS);
     }
 
     @Override
-    public void onLoading(int categoryId) {
-        if (categoryId != materialId) {
-            return;
-        }
-        setupState(State.LOADING);
+    public int getCategoryId() {
+        return materialId;
     }
 
     @Override
-    public void onError(int categoryId) {
-        if (categoryId != materialId) {
-            return;
-        }
+    public void onNetworkError() {
         setupState(State.ERROR);
     }
 
     @Override
-    public void onEmpty(int categoryId) {
-        if (categoryId != materialId) {
-            return;
-        }
+    public void onLoading() {
+        setupState(State.LOADING);
+    }
+
+    @Override
+    public void onEmpty() {
         setupState(State.EMPTY);
     }
 
