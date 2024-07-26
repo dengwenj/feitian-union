@@ -16,6 +16,7 @@
     <!--底部导航栏-->
     <vip.dengwj.feitian_union.component.tabbar.Tabbar
         android:id="@+id/tabbar"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

@@ -7,15 +7,16 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_above="@+id/nav"
-        android:background="#eee"
-        android:layout_marginBottom="8dp"/>
+        android:background="#eee" />
 
     <RadioGroup
         android:id="@+id/nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#fff"
+        android:paddingTop="5dp">
 
         <RadioButton
             android:id="@+id/nav_home"
