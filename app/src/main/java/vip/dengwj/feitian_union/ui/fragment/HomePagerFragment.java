@@ -25,7 +25,7 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
 
     private CategoryPagerPresenter categoryPagerPresenter;
     private int materialId;
-    private vip.dengwj.feitian_union.databinding.FragmentHomePagerBinding fragmentHomePagerBinding;
+    private FragmentHomePagerBinding fragmentHomePagerBinding;
     private HomePagerItemAdapter pagerItemAdapter;
     private LooperAdapter looperAdapter;
 
@@ -76,6 +76,9 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
             return;
         }
         categoryPagerPresenter.getContentByCategoryId(materialId);
+
+        String title = arguments.getString(Constants.KEY_HOME_PAGER_TITLE);
+        fragmentHomePagerBinding.title.showTitle.setText(title);
     }
 
     // 销毁
