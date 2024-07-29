@@ -2,11 +2,15 @@ package vip.dengwj.feitian_union.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager.widget.ViewPager;
+
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.List;
 
@@ -61,6 +65,11 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
         fragmentHomePagerBinding.homePageItem.setLayoutManager(layoutManager);
         pagerItemAdapter = new HomePagerItemAdapter();
         fragmentHomePagerBinding.homePageItem.setAdapter(pagerItemAdapter);
+        // 设置 Refresh 相关属性
+        // 下拉刷新关闭
+        fragmentHomePagerBinding.refresh.setEnableRefresh(false);
+        // 上拉加载更新
+        fragmentHomePagerBinding.refresh.setEnableLoadmore(true);
         setupState(State.SUCCESS);
     }
 
@@ -87,6 +96,20 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+
+        fragmentHomePagerBinding.refresh.setOnRefreshListener(new RefreshListenerAdapter() {
+            // 上拉加载更多事件
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                LogUtils.d(HomePagerFragment.class, "上拉加载更多...");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        fragmentHomePagerBinding.refresh.finishRefreshing();
+                    }
+                }, 2000);
             }
         });
     }
