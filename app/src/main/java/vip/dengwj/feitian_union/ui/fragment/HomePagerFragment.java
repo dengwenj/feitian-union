@@ -193,7 +193,10 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     // 加载更多数据
     @Override
     public void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list) {
-
+        LogUtils.d(HomePagerFragment.class, "list ==> " + list);
+        pagerItemAdapter.addData(list);
+        // 关闭加载更多动画
+        fragmentHomePagerBinding.refresh.finishLoadmore();
     }
 
     // 轮播图请求回来的数据

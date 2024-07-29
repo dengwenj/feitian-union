@@ -48,6 +48,13 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
         notifyDataSetChanged();
     }
 
+    public void addData(List<HomePagerContent.DataBean.ListBean> list) {
+        int oldSize = data.size();
+        data.addAll(list);
+        // 更新部分 UI
+        notifyItemRangeChanged(oldSize, list.size());
+    }
+
     public class Holder extends RecyclerView.ViewHolder {
         public Holder(@NonNull View itemView) {
             super(itemView);
