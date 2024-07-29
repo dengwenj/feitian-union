@@ -1,38 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="#eeeeee"
     android:layout_height="match_parent"
+    android:background="#eeeeee"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <!--可以上下滑动-->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="125dp">
-
-        <androidx.viewpager.widget.ViewPager
-            android:overScrollMode="never"
-            android:id="@+id/looper"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/view_pager_point"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_alignParentBottom="true">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="125dp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/looper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:overScrollMode="never" />
+
+                <LinearLayout
+                    android:id="@+id/view_pager_point"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!--标题-->
+            <include
+                android:id="@+id/title"
+                layout="@layout/include_home_pager_title_part" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/home_page_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="55dp"/>
 
         </LinearLayout>
-    </RelativeLayout>
-
-    <!--标题-->
-    <include android:id="@+id/title" layout="@layout/include_home_pager_title_part" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/home_page_item"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="55dp" />
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

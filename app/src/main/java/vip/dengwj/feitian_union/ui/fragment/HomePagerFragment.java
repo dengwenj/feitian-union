@@ -76,7 +76,11 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
 
             @Override
             public void onPageSelected(int position) {
-                int realPosition = position % looperAdapter.getDataSize();
+                int dataSize = looperAdapter.getDataSize();
+                if (dataSize == 0) {
+                    return;
+                }
+                int realPosition = position % dataSize;
                 updatePoint(realPosition);
             }
 
