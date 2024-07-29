@@ -144,7 +144,11 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     public void onLooperListLoaded(List<LoopList.DataBean> list) {
         looperAdapter.setData(list);
 
-        fragmentHomePagerBinding.looper.setCurrentItem(Integer.MAX_VALUE / 2);
+        // 中间点 % 数据的 size 不一定为 0，所以显示的就不是第一个
+        int dx = (Integer.MAX_VALUE / 2) % list.size();
+        int realPosition = (Integer.MAX_VALUE / 2) - dx;
+        // 设置到中间点
+        fragmentHomePagerBinding.looper.setCurrentItem(realPosition);
 
         Context context = getContext();
         fragmentHomePagerBinding.viewPagerPoint.removeAllViews();
