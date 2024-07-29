@@ -64,6 +64,8 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
     public void onCategoriesLoaded(Categories categories) {
         setupState(State.SUCCESS);
         if (homePagerAdapter != null) {
+            // 加载多少个，默认是多一个
+            // fragmentHomeBinding.homeViewPager.setOffscreenPageLimit(categories.getData().size());
             homePagerAdapter.setCategory(categories);
         }
     }

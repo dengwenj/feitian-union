@@ -1,8 +1,13 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.List;
@@ -19,6 +24,7 @@ import vip.dengwj.feitian_union.ui.adapter.HomePagerItemAdapter;
 import vip.dengwj.feitian_union.ui.adapter.LooperAdapter;
 import vip.dengwj.feitian_union.utils.Constants;
 import vip.dengwj.feitian_union.utils.LogUtils;
+import vip.dengwj.feitian_union.utils.SizeUtils;
 import vip.dengwj.feitian_union.view.CategoryPagerCallback;
 
 public class HomePagerFragment extends BaseFragment implements CategoryPagerCallback {
@@ -137,5 +143,26 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     @Override
     public void onLooperListLoaded(List<LoopList.DataBean> list) {
         looperAdapter.setData(list);
+
+        Context context = getContext();
+        fragmentHomePagerBinding.viewPagerPoint.removeAllViews();
+        int size = SizeUtils.dip2px(context, 8);
+        Drawable selectDrawable = AppCompatResources.getDrawable(context, R.drawable.looper_point);
+        GradientDrawable normalDrawable = (GradientDrawable) AppCompatResources.getDrawable(context, R.drawable.looper_point);
+        normalDrawable.setColor(context.getColor(R.color.white));
+
+        // 更新 UI，指示点
+        for (int i = 0; i < list.size(); i++) {
+            View view = new View(context);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(size, size);
+            layoutParams.leftMargin = size;
+            view.setLayoutParams(layoutParams);
+            if (i == 0) {
+                view.setBackground(selectDrawable);
+            } else {
+                view.setBackground(normalDrawable);
+            }
+            fragmentHomePagerBinding.viewPagerPoint.addView(view);
+        }
     }
 }
