@@ -24,6 +24,7 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
     private final Map<Integer, Integer> categoryIdAndPage = new HashMap<>();
 
     private static final Integer defaultPage = 1;
+    private Integer currentPage;
 
     // 单例
     private CategoryPagerPresenterImpl() {
@@ -131,7 +132,57 @@ public class CategoryPagerPresenterImpl implements CategoryPagerPresenter {
 
     @Override
     public void loaderMore(int categoryId) {
+        // 1、拿到当前页面
+        currentPage = categoryIdAndPage.get(categoryId);
+        // 2、页码++
+        if (currentPage == null) {
+            currentPage = 1;
+        }
+        currentPage++;
+        // 3、加载数据
+        String url = UrlUtils.createHomePagerUrl(categoryId, currentPage);
+        Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
+        API api = retrofit.create(API.class);
+        // 4、处理数据结果
+        api.getHomePagerContent(url).enqueue(new Callback<HomePagerContent>() {
+            @Override
+            public void onResponse(Call<HomePagerContent> call, Response<HomePagerContent> response) {
+                if (response.code() == HTTP_OK) {
+                    HomePagerContent data = response.body();
+                    handleMoreResult(categoryId, data);
+                } else {
+                    handleMoreError(categoryId);
+                }
+            }
 
+            @Override
+            public void onFailure(Call<HomePagerContent> call, Throwable t) {
+                handleMoreError(categoryId);
+            }
+        });
+    }
+
+    private void handleMoreResult(int categoryId, HomePagerContent data) {
+        for (CategoryPagerCallback callback : callbacks) {
+            if (callback.getCategoryId() == categoryId) {
+                if (data.getData().getList().isEmpty()) {
+                    callback.onLoaderMoreEmpty();
+                } else {
+                    callback.onLoaderMoreLoaded(data.getData().getList());
+                }
+            }
+        }
+    }
+
+
+    private void handleMoreError(int categoryId) {
+        currentPage--;
+        categoryIdAndPage.put(categoryId, currentPage);
+        for (CategoryPagerCallback callback : callbacks) {
+            if (callback.getCategoryId() == categoryId) {
+                callback.onLoaderMoreError();
+            }
+        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package vip.dengwj.feitian_union.ui.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -104,12 +103,8 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
             @Override
             public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
                 LogUtils.d(HomePagerFragment.class, "上拉加载更多...");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        fragmentHomePagerBinding.refresh.finishRefreshing();
-                    }
-                }, 2000);
+                // 加载更多
+                categoryPagerPresenter.loaderMore(materialId);
             }
         });
     }
@@ -195,6 +190,7 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
 
     }
 
+    // 加载更多数据
     @Override
     public void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list) {
 
