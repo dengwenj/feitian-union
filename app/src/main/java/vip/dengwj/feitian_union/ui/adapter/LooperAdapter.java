@@ -19,21 +19,28 @@ import vip.dengwj.feitian_union.utils.LogUtils;
 public class LooperAdapter extends PagerAdapter {
     private final List<LoopList.DataBean> list = new ArrayList<>();
 
+    // 总共多少
     @Override
     public int getCount() {
-        return list.size();
+        // return list.size();
+        return Integer.MAX_VALUE;
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        LogUtils.d(LooperAdapter.class, "position -> " + position);
+        // 处理下越界问题
+        int realPosition = position % list.size();
+        LoopList.DataBean dataBean = list.get(realPosition);
+
         Context context = container.getContext();
         ImageView item = new ImageView(context);
         container.addView(item);
         // ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams();
         // item.setLayoutParams(layoutParams);
         item.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        Glide.with(context).load(list.get(position).getCover()).into(item);
+        Glide.with(context).load(dataBean.getCover()).into(item);
         return item;
     }
 

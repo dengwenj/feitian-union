@@ -144,6 +144,8 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     public void onLooperListLoaded(List<LoopList.DataBean> list) {
         looperAdapter.setData(list);
 
+        fragmentHomePagerBinding.looper.setCurrentItem(Integer.MAX_VALUE / 2);
+
         Context context = getContext();
         fragmentHomePagerBinding.viewPagerPoint.removeAllViews();
         int size = SizeUtils.dip2px(context, 8);
