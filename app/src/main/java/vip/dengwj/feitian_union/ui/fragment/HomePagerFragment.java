@@ -1,14 +1,12 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.List;
 
@@ -64,6 +62,42 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
         pagerItemAdapter = new HomePagerItemAdapter();
         fragmentHomePagerBinding.homePageItem.setAdapter(pagerItemAdapter);
         setupState(State.SUCCESS);
+    }
+
+    @Override
+    public void initListener() {
+        super.initListener();
+
+        fragmentHomePagerBinding.looper.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int realPosition = position % looperAdapter.getDataSize();
+                updatePoint(realPosition);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+    }
+
+    private void updatePoint(int realPosition) {
+        int childCount = fragmentHomePagerBinding.viewPagerPoint.getChildCount();
+
+        for (int i = 0; i < childCount; i++) {
+            View point = fragmentHomePagerBinding.viewPagerPoint.getChildAt(i);
+            if (realPosition == i) {
+                point.setBackgroundResource(R.drawable.looper_point);
+            } else {
+                point.setBackgroundResource(R.drawable.edit_bg);
+            }
+        }
     }
 
     @Override
@@ -153,9 +187,6 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
         Context context = getContext();
         fragmentHomePagerBinding.viewPagerPoint.removeAllViews();
         int size = SizeUtils.dip2px(context, 8);
-        Drawable selectDrawable = AppCompatResources.getDrawable(context, R.drawable.looper_point);
-        GradientDrawable normalDrawable = (GradientDrawable) AppCompatResources.getDrawable(context, R.drawable.looper_point);
-        normalDrawable.setColor(context.getColor(R.color.white));
 
         // 更新 UI，指示点
         for (int i = 0; i < list.size(); i++) {
@@ -164,9 +195,9 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
             layoutParams.leftMargin = size;
             view.setLayoutParams(layoutParams);
             if (i == 0) {
-                view.setBackground(selectDrawable);
+                view.setBackgroundResource(R.drawable.looper_point);
             } else {
-                view.setBackground(normalDrawable);
+                view.setBackgroundResource(R.drawable.edit_bg);
             }
             fragmentHomePagerBinding.viewPagerPoint.addView(view);
         }

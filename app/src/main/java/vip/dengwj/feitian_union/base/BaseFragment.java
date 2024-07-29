@@ -46,7 +46,7 @@ public abstract class BaseFragment extends Fragment {
         return rootView;
     }
 
-    private void initListener() {
+    public void initListener() {
         networlErrorBinding = FragmentNetworlErrorBinding.bind(networkErrorView);
         networlErrorBinding.networkError.setOnClickListener(v -> {
             resetNetworkError();

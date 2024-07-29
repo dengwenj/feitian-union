@@ -26,6 +26,10 @@ public class LooperAdapter extends PagerAdapter {
         return Integer.MAX_VALUE;
     }
 
+    public int getDataSize() {
+        return list.size();
+    }
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
