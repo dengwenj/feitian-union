@@ -26,6 +26,7 @@ import vip.dengwj.feitian_union.ui.adapter.LooperAdapter;
 import vip.dengwj.feitian_union.utils.Constants;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.SizeUtils;
+import vip.dengwj.feitian_union.utils.ToastUtils;
 import vip.dengwj.feitian_union.view.CategoryPagerCallback;
 
 public class HomePagerFragment extends BaseFragment implements CategoryPagerCallback {
@@ -182,12 +183,14 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
 
     @Override
     public void onLoaderMoreError() {
-
+        ToastUtils.showToast("网络错误，请稍后重试");
+        fragmentHomePagerBinding.refresh.finishLoadmore();
     }
 
     @Override
     public void onLoaderMoreEmpty() {
-
+        ToastUtils.showToast("没有更多数据了");
+        fragmentHomePagerBinding.refresh.finishLoadmore();
     }
 
     // 加载更多数据
@@ -195,6 +198,7 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     public void onLoaderMoreLoaded(List<HomePagerContent.DataBean.ListBean> list) {
         LogUtils.d(HomePagerFragment.class, "list ==> " + list);
         pagerItemAdapter.addData(list);
+        ToastUtils.showToast("加载成功");
         // 关闭加载更多动画
         fragmentHomePagerBinding.refresh.finishLoadmore();
     }
