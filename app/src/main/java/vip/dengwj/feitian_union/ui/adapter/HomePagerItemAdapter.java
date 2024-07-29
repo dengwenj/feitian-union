@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import java.util.List;
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.databinding.ItemHomePageBinding;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
+import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.UrlUtils;
 
 public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdapter.Holder> {
@@ -64,7 +66,12 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
             Context context = itemView.getContext();
 
             itemHomePageBinding.title.setText(item.getTitle());
-            Glide.with(context).load(UrlUtils.getCoverPath(item.getCover())).into(itemHomePageBinding.cover);
+            ImageView imageView = itemHomePageBinding.cover;
+            ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
+            int width = layoutParams.width;
+            int height = layoutParams.height;
+            int size = Math.max(width, height);
+            Glide.with(context).load(UrlUtils.getCoverPath(item.getCover(), size)).into(imageView);
             String format = String.format(
                     String.format(context.getString(R.string.sheng), String.format("%.2f", item.getCouponAmount()))
             );

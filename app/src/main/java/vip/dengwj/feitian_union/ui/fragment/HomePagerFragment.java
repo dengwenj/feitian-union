@@ -107,6 +107,11 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
                 // 加载更多
                 categoryPagerPresenter.loaderMore(materialId);
             }
+            // 下拉刷新
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+            }
         });
     }
 

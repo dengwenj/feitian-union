@@ -5,7 +5,7 @@ public class UrlUtils {
         return "shop/m/"+ page + "/" + categoryId;
     }
 
-    public static String getCoverPath(String path) {
-        return "https:" + path;
+    public static String getCoverPath(String path, int size) {
+        return "https:" + path + "_" + size + "x" + size + ".jpg";
     }
 }
