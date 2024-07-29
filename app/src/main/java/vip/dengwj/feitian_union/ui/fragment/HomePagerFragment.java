@@ -3,6 +3,7 @@ package vip.dengwj.feitian_union.ui.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -76,6 +77,25 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
     @Override
     public void initListener() {
         super.initListener();
+
+        // 监听全局布局改变
+        fragmentHomePagerBinding.homePagerParent
+                .getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        int measuredHeight = fragmentHomePagerBinding.homePagerParent.getMeasuredHeight();
+                        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) fragmentHomePagerBinding.homePageItem.getLayoutParams();
+                        if (measuredHeight != 0) {
+                            layoutParams.height = measuredHeight;
+                            fragmentHomePagerBinding.homePageItem.setLayoutParams(layoutParams);
+                            // 销毁事件
+                            fragmentHomePagerBinding.homePagerParent
+                                    .getViewTreeObserver()
+                                    .removeOnGlobalLayoutListener(this);
+                        }
+                    }
+                });
 
         fragmentHomePagerBinding.looper.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

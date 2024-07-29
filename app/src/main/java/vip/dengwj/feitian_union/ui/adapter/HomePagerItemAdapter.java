@@ -26,6 +26,7 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
 
     private ItemHomePageBinding itemHomePageBinding;
 
+    // 只会创建看家视图的部分，后面会复用
     @NonNull
     @Override
     public HomePagerItemAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
