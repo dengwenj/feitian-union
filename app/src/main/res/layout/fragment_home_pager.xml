@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <!--可以上下滑动-->
-        <vip.dengwj.feitian_union.component.FTNestedScrollView
+        <com.lcodecore.tkrefreshlayout.views.FTNestedScrollView
             android:id="@+id/ft_nested_scroll_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -58,10 +58,9 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/home_page_item"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"/>
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
-        </vip.dengwj.feitian_union.component.FTNestedScrollView>
+        </com.lcodecore.tkrefreshlayout.views.FTNestedScrollView>
     </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 </LinearLayout>

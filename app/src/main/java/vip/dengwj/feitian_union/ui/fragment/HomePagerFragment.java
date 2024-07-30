@@ -16,7 +16,6 @@ import java.util.List;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
-import vip.dengwj.feitian_union.component.FTNestedScrollView;
 import vip.dengwj.feitian_union.databinding.FragmentHomePagerBinding;
 import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
