@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private RedPackedFragment redPackedFragment;
     private SearchFragment searchFragment;
     private FragmentManager fragmentManager;
+    private BaseFragment lastFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +52,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void switchFragment(BaseFragment fragment) {
+        // 修改成显示和隐藏方式，缓存起来
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        if (!fragment.isAdded()) {
+            transaction.add(R.id.main_page_container_frame_layout, fragment);
+        } else {
+            transaction.show(fragment);
+        }
+
+        if (lastFragment != null) {
+            transaction.hide(lastFragment);
+        }
+        lastFragment = fragment;
         // 切换 fragment
-        transaction.replace(R.id.main_page_container_frame_layout, fragment);
+        // transaction.replace(R.id.main_page_container_frame_layout, fragment);
         transaction.commit();
     }
 
