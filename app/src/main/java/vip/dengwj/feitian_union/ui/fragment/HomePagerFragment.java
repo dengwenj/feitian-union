@@ -16,6 +16,7 @@ import java.util.List;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
+import vip.dengwj.feitian_union.component.FTNestedScrollView;
 import vip.dengwj.feitian_union.databinding.FragmentHomePagerBinding;
 import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
@@ -84,6 +85,9 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
                 .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     @Override
                     public void onGlobalLayout() {
+                        int headerHeight = fragmentHomePagerBinding.header.getMeasuredHeight();
+                        fragmentHomePagerBinding.ftNestedScrollView.setHeaderHeight(headerHeight);
+
                         int measuredHeight = fragmentHomePagerBinding.homePagerParent.getMeasuredHeight();
                         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) fragmentHomePagerBinding.homePageItem.getLayoutParams();
                         if (measuredHeight != 0) {
