@@ -74,6 +74,19 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
         setupState(State.SUCCESS);
     }
 
+    // 看家页面
+    @Override
+    public void onResume() {
+        super.onResume();
+        fragmentHomePagerBinding.looper.startLoop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        fragmentHomePagerBinding.looper.stopLoop();
+    }
+
     @Override
     public void initListener() {
         super.initListener();

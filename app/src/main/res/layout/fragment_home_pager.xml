@@ -20,6 +20,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -31,7 +32,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="125dp">
 
-                        <androidx.viewpager.widget.ViewPager
+                        <vip.dengwj.feitian_union.ui.custom.AutoLoopViewPager
                             android:id="@+id/looper"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
