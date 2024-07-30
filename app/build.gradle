@@ -43,7 +43,7 @@ dependencies {
     androidTestImplementation libs.espresso.core
 
     // 刷新/加载更多UI框架
-    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
+//    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 
     // UI注入框架
     implementation 'com.jakewharton:butterknife:10.2.3'
@@ -69,4 +69,7 @@ dependencies {
 
     // json 对象 转换
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    // 另外一个 model
+    implementation project(path: ':refreshLibrary')
 }

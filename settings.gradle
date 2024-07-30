@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "feitian-union"
-include ':app'
+include ':app', ':refreshLibrary'
