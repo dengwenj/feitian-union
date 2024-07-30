@@ -26,6 +26,8 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
 
     private ItemHomePageBinding itemHomePageBinding;
 
+    private OnListItemListener onListItemListener;
+
     // 只会创建看家视图的部分，后面会复用
     @NonNull
     @Override
@@ -82,6 +84,21 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
             double newPrice = Double.parseDouble(item.getZkFinalPrice()) - item.getCouponAmount();
             itemHomePageBinding.newPrice.setText(String.format("%.2f", newPrice));
             itemHomePageBinding.goumai.setText(String.format(context.getString(R.string.goumai), item.getSellCount()));
+
+            // 点击 item
+            itemHomePageBinding.itemHomePage.setOnClickListener(v -> {
+                if (onListItemListener != null) {
+                    onListItemListener.onItemClick(item);
+                }
+            });
         }
+    }
+
+    public void setOnListItemListener(OnListItemListener listener) {
+        onListItemListener = listener;
+    }
+
+    public interface OnListItemListener {
+        void onItemClick(HomePagerContent.DataBean.ListBean item);
     }
 }

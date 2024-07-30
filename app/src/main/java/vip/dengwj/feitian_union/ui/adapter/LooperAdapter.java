@@ -19,6 +19,8 @@ import vip.dengwj.feitian_union.utils.LogUtils;
 public class LooperAdapter extends PagerAdapter {
     private final List<LoopList.DataBean> list = new ArrayList<>();
 
+    private OnLooperListener onLooperListener;
+
     // 总共多少
     @Override
     public int getCount() {
@@ -33,13 +35,20 @@ public class LooperAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        LogUtils.d(LooperAdapter.class, "position -> " + position);
         // 处理下越界问题
         int realPosition = position % list.size();
         LoopList.DataBean dataBean = list.get(realPosition);
 
         Context context = container.getContext();
         ImageView item = new ImageView(context);
+
+        // 点击轮播图
+        item.setOnClickListener(v -> {
+            if (onLooperListener != null) {
+                onLooperListener.onItemClick(dataBean);
+            }
+        });
+
         container.addView(item);
         // ViewPager.LayoutParams layoutParams = new ViewPager.LayoutParams();
         // item.setLayoutParams(layoutParams);
@@ -63,5 +72,13 @@ public class LooperAdapter extends PagerAdapter {
         this.list.clear();
         this.list.addAll(list);
         notifyDataSetChanged();
+    }
+
+    public void setOnLooperListener(OnLooperListener listener) {
+        onLooperListener = listener;
+    }
+
+    public interface OnLooperListener {
+        void onItemClick(LoopList.DataBean item);
     }
 }

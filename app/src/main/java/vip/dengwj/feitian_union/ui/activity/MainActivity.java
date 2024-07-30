@@ -1,12 +1,10 @@
 package vip.dengwj.feitian_union.ui.activity;
 
-import android.os.Bundle;
-
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import vip.dengwj.feitian_union.R;
+import vip.dengwj.feitian_union.base.BaseActivity;
 import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.ActivityMainBinding;
 import vip.dengwj.feitian_union.ui.fragment.HomeFragment;
@@ -14,7 +12,7 @@ import vip.dengwj.feitian_union.ui.fragment.RedPackedFragment;
 import vip.dengwj.feitian_union.ui.fragment.SearchFragment;
 import vip.dengwj.feitian_union.ui.fragment.SelectedFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     /**
      * 首先需要知道一个关键点，在启用ViewBinding后。每一个layout文件都会自动生成一份Java类。它会自动根据下划线进行驼峰命名。
      * 比如一个叫 activity_main_demo.xml 的布局文件，它对应自动生成的类叫ActivityMainDemoBinding。
@@ -30,15 +28,22 @@ public class MainActivity extends AppCompatActivity {
     private BaseFragment lastFragment;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initView() {
         activitymainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(activitymainBinding.getRoot());
 
         // 初始化 fragment
         initFragment();
-        // 监听
+    }
+
+    @Override
+    public void initEvent() {
+        // 事件
         initListener();
+    }
+
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     private void initFragment() {
@@ -81,20 +86,5 @@ public class MainActivity extends AppCompatActivity {
                 switchFragment(searchFragment);
             }
         });
-
-        // activitymainBinding.mainNavigation.setOnItemSelectedListener(item -> {
-        //     int itemId = item.getItemId();
-        //     if (itemId == R.id.home) {
-        //         switchFragment(homeFragment);
-        //     } else if (itemId == R.id.selected) {
-        //         switchFragment(selectedFragment);
-        //     } else if (itemId == R.id.red_packet) {
-        //         switchFragment(redPackedFragment);
-        //     } else if (itemId == R.id.search) {
-        //         switchFragment(searchFragment);
-        //     }
-        //
-        //     return true;
-        // });
     }
 }

@@ -57,4 +57,8 @@ public class AutoLoopViewPager extends ViewPager {
         isLoop = false;
         removeCallbacks(runnable);
     }
+
+    public void setDuration(int duration) {
+        mDuration = duration;
+    }
 }

@@ -1,6 +1,7 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -22,6 +23,7 @@ import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.LoopList;
 import vip.dengwj.feitian_union.presenter.CategoryPagerPresenter;
 import vip.dengwj.feitian_union.presenter.impl.CategoryPagerPresenterImpl;
+import vip.dengwj.feitian_union.ui.activity.TicketActivity;
 import vip.dengwj.feitian_union.ui.adapter.HomePagerItemAdapter;
 import vip.dengwj.feitian_union.ui.adapter.LooperAdapter;
 import vip.dengwj.feitian_union.utils.Constants;
@@ -30,7 +32,7 @@ import vip.dengwj.feitian_union.utils.SizeUtils;
 import vip.dengwj.feitian_union.utils.ToastUtils;
 import vip.dengwj.feitian_union.view.CategoryPagerCallback;
 
-public class HomePagerFragment extends BaseFragment implements CategoryPagerCallback {
+public class HomePagerFragment extends BaseFragment implements CategoryPagerCallback, LooperAdapter.OnLooperListener, HomePagerItemAdapter.OnListItemListener {
 
     private CategoryPagerPresenter categoryPagerPresenter;
     private int materialId;
@@ -149,6 +151,10 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
                 super.onRefresh(refreshLayout);
             }
         });
+
+        // 点击 item
+        looperAdapter.setOnLooperListener(this);
+        pagerItemAdapter.setOnListItemListener(this);
     }
 
     private void updatePoint(int realPosition) {
@@ -272,5 +278,23 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
             }
             fragmentHomePagerBinding.viewPagerPoint.addView(view);
         }
+    }
+
+    @Override
+    public void onItemClick(LoopList.DataBean item) {
+        handleTicket(item.getTitle());
+    }
+
+    @Override
+    public void onItemClick(HomePagerContent.DataBean.ListBean item) {
+        handleTicket(item.getTitle());
+    }
+
+    private void handleTicket(String title) {
+        Intent intent = new Intent(getContext(), TicketActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString("title", title);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 }
