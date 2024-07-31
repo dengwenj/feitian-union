@@ -40,6 +40,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     @Override
+    public void initPresenter() {
+
+    }
+
+    @Override
     public void initEvent() {
         // 事件
         initListener();

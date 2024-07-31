@@ -16,8 +16,12 @@ public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActiv
 
         initView();
 
+        initPresenter();
+
         initEvent();
     }
+
+    public abstract void initPresenter();
 
     public void initEvent() {
 
