@@ -3,9 +3,6 @@ package vip.dengwj.feitian_union.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.viewbinding.ViewBinding;
-
-import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseActivity;
 import vip.dengwj.feitian_union.databinding.ActivityTicketBinding;
 import vip.dengwj.feitian_union.utils.LogUtils;

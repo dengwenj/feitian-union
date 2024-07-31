@@ -22,17 +22,21 @@ import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.LoopList;
 import vip.dengwj.feitian_union.presenter.CategoryPagerPresenter;
+import vip.dengwj.feitian_union.presenter.TicketPresenter;
 import vip.dengwj.feitian_union.presenter.impl.CategoryPagerPresenterImpl;
+import vip.dengwj.feitian_union.presenter.impl.TicketPresenterImpl;
 import vip.dengwj.feitian_union.ui.activity.TicketActivity;
 import vip.dengwj.feitian_union.ui.adapter.HomePagerItemAdapter;
 import vip.dengwj.feitian_union.ui.adapter.LooperAdapter;
 import vip.dengwj.feitian_union.utils.Constants;
 import vip.dengwj.feitian_union.utils.LogUtils;
+import vip.dengwj.feitian_union.utils.PresenterManager;
 import vip.dengwj.feitian_union.utils.SizeUtils;
 import vip.dengwj.feitian_union.utils.ToastUtils;
 import vip.dengwj.feitian_union.view.CategoryPagerCallback;
 
-public class HomePagerFragment extends BaseFragment implements CategoryPagerCallback, LooperAdapter.OnLooperListener, HomePagerItemAdapter.OnListItemListener {
+public class HomePagerFragment extends BaseFragment
+        implements CategoryPagerCallback, LooperAdapter.OnLooperListener, HomePagerItemAdapter.OnListItemListener {
 
     private CategoryPagerPresenter categoryPagerPresenter;
     private int materialId;
@@ -145,6 +149,7 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
                 // 加载更多
                 categoryPagerPresenter.loaderMore(materialId);
             }
+
             // 下拉刷新
             @Override
             public void onRefresh(TwinklingRefreshLayout refreshLayout) {
@@ -282,15 +287,18 @@ public class HomePagerFragment extends BaseFragment implements CategoryPagerCall
 
     @Override
     public void onItemClick(LoopList.DataBean item) {
-        handleTicket(item.getTitle());
+        handleTicket(item.getTitle(), item.getUrl(), item.getCover());
     }
 
     @Override
     public void onItemClick(HomePagerContent.DataBean.ListBean item) {
-        handleTicket(item.getTitle());
+        handleTicket(item.getTitle(), item.getCouponShareUrl(), item.getCover());
     }
 
-    private void handleTicket(String title) {
+    private void handleTicket(String title, String url, String cover) {
+        TicketPresenter ticketPresenter = PresenterManager.getInstance().getTicketPresenter();
+        ticketPresenter.getTicket(title, url, cover);
+
         Intent intent = new Intent(getContext(), TicketActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
