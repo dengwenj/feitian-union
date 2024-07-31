@@ -9,6 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitManager {
     public static RetrofitManager retrofitManager = new RetrofitManager();
     private final Retrofit retrofit;
+    private final Retrofit retrofit2;
 
     public static RetrofitManager getInstance() {
         return retrofitManager;
@@ -26,9 +27,19 @@ public class RetrofitManager {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
+
+        retrofit2 = new Retrofit.Builder()
+                .baseUrl(Constants.BASE_URL2)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(okHttpClient)
+                .build();
     }
 
     public Retrofit getRetrofit() {
         return retrofit;
+    }
+
+    public Retrofit getRetrofit2() {
+        return retrofit2;
     }
 }
