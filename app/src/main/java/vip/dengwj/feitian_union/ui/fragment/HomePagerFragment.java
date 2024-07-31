@@ -287,7 +287,7 @@ public class HomePagerFragment extends BaseFragment
 
     @Override
     public void onItemClick(LoopList.DataBean item) {
-        handleTicket(item.getTitle(), item.getUrl(), item.getCover());
+        // handleTicket(item.getTitle(), item.getUrl(), item.getCover());
     }
 
     @Override

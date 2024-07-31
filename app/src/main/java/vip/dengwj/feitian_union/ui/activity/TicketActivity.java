@@ -1,5 +1,7 @@
 package vip.dengwj.feitian_union.ui.activity;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -18,10 +20,26 @@ public class TicketActivity extends BaseActivity<ActivityTicketBinding> implemen
     private TicketPresenter ticketPresenter;
     private ActivityTicketBinding ticketBinding;
 
+    private boolean hasTaobaoApp = false;
+
     @Override
     public void initPresenter() {
         ticketPresenter = PresenterManager.getInstance().getTicketPresenter();
         ticketPresenter.registerCallback(this);
+
+        // 检查是否安装淘宝应用
+        // 淘宝包名：com.taobao.taobao
+        PackageManager pm = getPackageManager();
+        try {
+            PackageInfo packageInfo = pm.getPackageInfo("com.taobao.taobao", PackageManager.MATCH_UNINSTALLED_PACKAGES);
+            hasTaobaoApp = packageInfo != null;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            hasTaobaoApp = false;
+        }
+        LogUtils.d(TicketActivity.class, "hasTaobaoApp -》 " + hasTaobaoApp);
+
+        ticketBinding.ticketLq.setText(hasTaobaoApp ? "打开淘宝领券" : "复制淘口令");
     }
 
     @Override
