@@ -78,6 +78,7 @@ public class TicketActivity extends BaseActivity<ActivityTicketBinding> implemen
             // 判断是否有淘宝
             if (hasTaobaoApp) {
                 // 打开淘宝
+                // 跳转至另一个应用的主入口Activity（根据包名自动识别主入口）
                 Intent intent = getPackageManager().getLaunchIntentForPackage("com.taobao.taobao");
                 startActivity(intent);
             } else {

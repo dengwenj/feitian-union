@@ -80,9 +80,8 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
             );
             itemHomePageBinding.sheng.setText(format);
             itemHomePageBinding.oldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            itemHomePageBinding.oldPrice.setText(context.getString(R.string.old_price, item.getZkFinalPrice()));
-            double newPrice = Double.parseDouble(item.getZkFinalPrice()) - item.getCouponAmount();
-            itemHomePageBinding.newPrice.setText(String.format("%.2f", newPrice));
+            itemHomePageBinding.oldPrice.setText(context.getString(R.string.old_price, item.getJustPrice()));
+            itemHomePageBinding.newPrice.setText(String.format("%.2f", Float.parseFloat(item.getZkFinalPrice())));
             itemHomePageBinding.goumai.setText(String.format(context.getString(R.string.goumai), item.getSellCount()));
 
             // 点击 item
