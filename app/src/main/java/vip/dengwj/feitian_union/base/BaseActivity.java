@@ -3,12 +3,16 @@ package vip.dengwj.feitian_union.base;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewbinding.ViewBinding;
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends ViewBinding> extends AppCompatActivity {
+    private T binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
+        binding = getBinding();
+        setContentView(binding.getRoot());
 
         initView();
 
@@ -21,5 +25,5 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     public abstract void initView();
 
-    public abstract int getLayoutId();
+    public abstract T getBinding();
 }

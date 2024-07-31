@@ -12,7 +12,7 @@ import vip.dengwj.feitian_union.ui.fragment.RedPackedFragment;
 import vip.dengwj.feitian_union.ui.fragment.SearchFragment;
 import vip.dengwj.feitian_union.ui.fragment.SelectedFragment;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<ActivityMainBinding> {
     /**
      * 首先需要知道一个关键点，在启用ViewBinding后。每一个layout文件都会自动生成一份Java类。它会自动根据下划线进行驼峰命名。
      * 比如一个叫 activity_main_demo.xml 的布局文件，它对应自动生成的类叫ActivityMainDemoBinding。
@@ -29,21 +29,20 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        activitymainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-
         // 初始化 fragment
         initFragment();
+    }
+
+    @Override
+    public ActivityMainBinding getBinding() {
+        activitymainBinding = ActivityMainBinding.inflate(getLayoutInflater());
+        return activitymainBinding;
     }
 
     @Override
     public void initEvent() {
         // 事件
         initListener();
-    }
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_main;
     }
 
     private void initFragment() {
