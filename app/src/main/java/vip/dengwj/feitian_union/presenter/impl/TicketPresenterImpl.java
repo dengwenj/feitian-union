@@ -49,6 +49,7 @@ public class TicketPresenterImpl implements TicketPresenter {
 
             @Override
             public void onFailure(Call<Ticket> call, Throwable t) {
+                handleError();
                 LogUtils.d(TicketPresenterImpl.class, "t -> " + t.getMessage());
             }
         });
@@ -66,6 +67,7 @@ public class TicketPresenterImpl implements TicketPresenter {
 
         state = LoadState.SUCCESS;
         ticketCallback.onTicketLoaded(cover, ticket);
+        state = LoadState.NONE;
     }
 
     private void handleError() {
@@ -78,7 +80,6 @@ public class TicketPresenterImpl implements TicketPresenter {
     @Override
     public void registerCallback(TicketCallback callback) {
         ticketCallback = callback;
-
         // 可能 getTicket 比跳转页面快
         if (state != LoadState.NONE) {
             // 状态已经变了 更新 UI
