@@ -13,7 +13,7 @@
             android:id="@+id/feitian"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="飞天"
+            android:text="朴睦"
             android:gravity="center"
             android:textColor="@color/white"
             android:layout_marginLeft="10dp"
