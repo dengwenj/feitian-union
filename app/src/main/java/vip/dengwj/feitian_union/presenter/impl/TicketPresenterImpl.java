@@ -14,6 +14,7 @@ import vip.dengwj.feitian_union.utils.RetrofitManager;
 import vip.dengwj.feitian_union.view.TicketCallback;
 
 public class TicketPresenterImpl implements TicketPresenter {
+    // 获取淘口令
     @Override
     public void getTicket(String title, String url, String cover) {
         API api = RetrofitManager.getInstance().getRetrofit2().create(API.class);
