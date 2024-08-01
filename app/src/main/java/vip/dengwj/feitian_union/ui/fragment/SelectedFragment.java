@@ -1,5 +1,6 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,8 @@ import vip.dengwj.feitian_union.databinding.FragmentSelectedBinding;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.SelectedCategory;
 import vip.dengwj.feitian_union.presenter.SelectedPagePresenter;
+import vip.dengwj.feitian_union.presenter.TicketPresenter;
+import vip.dengwj.feitian_union.ui.activity.TicketActivity;
 import vip.dengwj.feitian_union.ui.adapter.SelectedLeftAdapter;
 import vip.dengwj.feitian_union.ui.adapter.SelectedRightAdapter;
 import vip.dengwj.feitian_union.utils.LogUtils;
@@ -48,6 +51,13 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
     @Override
     public void initListener() {
         selectedLeftAdapter.setOnCategoryLeftClickListener(this::handleClickLeftCategory);
+        selectedRightAdapter.setOnLygmClickListener(this::handleClickLqgm);
+    }
+
+    private void handleClickLqgm(String title, String url, String cover) {
+        TicketPresenter ticketPresenter = PresenterManager.getInstance().getTicketPresenter();
+        ticketPresenter.getTicket(title, url, cover);
+        startActivity(new Intent(getContext(), TicketActivity.class));
     }
 
     private void handleClickLeftCategory(int categoryId) {
@@ -76,7 +86,6 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
 
     @Override
     public void categoryContentLoaded(List<HomePagerContent.DataBean.ListBean> list) {
-        LogUtils.d(SelectedFragment.class, "list -> " + list);
         selectedRightAdapter.setData(list);
     }
 

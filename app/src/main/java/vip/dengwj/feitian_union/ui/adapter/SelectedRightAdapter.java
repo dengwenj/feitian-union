@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +23,8 @@ import vip.dengwj.feitian_union.utils.UrlUtils;
 
 public class SelectedRightAdapter extends RecyclerView.Adapter<SelectedRightAdapter.Holder> {
     private final List<HomePagerContent.DataBean.ListBean> list = new ArrayList<>();
-    private vip.dengwj.feitian_union.databinding.ItemSelectedRightBinding selectedRightBinding;
+    private ItemSelectedRightBinding selectedRightBinding;
+    private OnLygmClickListener onLygmClickListener;
 
     @NonNull
     @Override
@@ -43,6 +45,13 @@ public class SelectedRightAdapter extends RecyclerView.Adapter<SelectedRightAdap
         sheng1.setText("领券省" + String.format("%.2f", item.getCouponAmount()) + "元");
         text.setText(item.getTitle());
         yj.setText("原价：" + String.format("%.2f", Float.parseFloat(item.getJustPrice())) + "元");
+
+        LinearLayout textView = view.findViewById(R.id.right_item);
+        textView.setOnClickListener(v -> {
+            if (onLygmClickListener != null) {
+                onLygmClickListener.onClickLygm(item.getTitle(), item.getCouponShareUrl(), item.getCover());
+            }
+        });
     }
 
     @Override
@@ -62,5 +71,13 @@ public class SelectedRightAdapter extends RecyclerView.Adapter<SelectedRightAdap
         public Holder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    public void setOnLygmClickListener(OnLygmClickListener listener) {
+        onLygmClickListener = listener;
+    }
+
+    public interface OnLygmClickListener {
+        void onClickLygm(String title, String url, String cover);
     }
 }
