@@ -6,4 +6,5 @@
     <color name="colorPrimary">#eaaf43</color>
     <color name="colorAccent">#eaaf43</color>
     <color name="colorGray">#cccccc</color>
+    <color name="category_left">#eeeeee</color>
 </resources>
