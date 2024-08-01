@@ -12,6 +12,7 @@ import vip.dengwj.feitian_union.model.API;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.SelectedCategory;
 import vip.dengwj.feitian_union.presenter.SelectedPagePresenter;
+import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.RetrofitManager;
 import vip.dengwj.feitian_union.utils.UrlUtils;
 import vip.dengwj.feitian_union.view.SelectedCallback;
@@ -80,6 +81,10 @@ public class SelectedPagePresenterImpl implements SelectedPagePresenter {
                         if (selectedCallback != null) {
                             selectedCallback.onEmpty();
                         }
+                        return;
+                    }
+
+                    if (!data.isSuccess()) {
                         return;
                     }
 

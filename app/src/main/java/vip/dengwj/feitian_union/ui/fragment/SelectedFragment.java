@@ -13,6 +13,7 @@ import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.SelectedCategory;
 import vip.dengwj.feitian_union.presenter.SelectedPagePresenter;
 import vip.dengwj.feitian_union.ui.adapter.SelectedLeftAdapter;
+import vip.dengwj.feitian_union.ui.adapter.SelectedRightAdapter;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.PresenterManager;
 import vip.dengwj.feitian_union.view.SelectedCallback;
@@ -22,6 +23,7 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
     private SelectedPagePresenter selectedPagePresenter;
     private FragmentSelectedBinding selectedBinding;
     private SelectedLeftAdapter selectedLeftAdapter;
+    private SelectedRightAdapter selectedRightAdapter;
 
     @Override
     public int loadRootViewId() {
@@ -36,13 +38,20 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
         selectedBinding.leftCategory.setLayoutManager(layoutManager);
         selectedLeftAdapter = new SelectedLeftAdapter();
         selectedBinding.leftCategory.setAdapter(selectedLeftAdapter);
+
+        // 右侧
+        selectedBinding.rightCategoryContent.setLayoutManager(new LinearLayoutManager(getContext()));
+        selectedRightAdapter = new SelectedRightAdapter();
+        selectedBinding.rightCategoryContent.setAdapter(selectedRightAdapter);
     }
 
     @Override
     public void initListener() {
-        selectedLeftAdapter.setOnCategoryLeftClickListener((categoryId) -> {
-            LogUtils.d(SelectedFragment.class, "categoryId -> " + categoryId);
-        });
+        selectedLeftAdapter.setOnCategoryLeftClickListener(this::handleClickLeftCategory);
+    }
+
+    private void handleClickLeftCategory(int categoryId) {
+        selectedPagePresenter.getCategoryContent(categoryId);
     }
 
     @Override
@@ -60,26 +69,29 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
 
     @Override
     public void categoryLoaded(List<SelectedCategory.DataBean> categoryList) {
+        setupState(State.SUCCESS);
         selectedLeftAdapter.setData(categoryList);
+        selectedPagePresenter.getCategoryContent(categoryList.get(0).getMaterialId());
     }
 
     @Override
     public void categoryContentLoaded(List<HomePagerContent.DataBean.ListBean> list) {
-
+        LogUtils.d(SelectedFragment.class, "list -> " + list);
+        selectedRightAdapter.setData(list);
     }
 
     @Override
     public void onNetworkError() {
-
+        setupState(State.ERROR);
     }
 
     @Override
     public void onLoading() {
-
+        setupState(State.LOADING);
     }
 
     @Override
     public void onEmpty() {
-
+        setupState(State.EMPTY);
     }
 }

@@ -30,9 +30,10 @@
             android:layout_height="match_parent"
             android:background="#ffffff" />
 
-        <RelativeLayout
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/right_category_content"
             android:layout_width="match_parent"
+            android:padding="2dp"
             android:layout_height="match_parent" />
     </LinearLayout>
 </LinearLayout>
