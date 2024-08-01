@@ -25,7 +25,16 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
     @Override
     public void initView(View rootView) {
         setupState(State.SUCCESS);
+    }
 
+    @Override
+    public void release() {
+        super.release();
+        selectedPagePresenter.unregisterCallback(this);
+    }
+
+    @Override
+    public void initPresenter() {
         selectedPagePresenter = PresenterManager.getInstance().getSelectedPagePresenter();
         selectedPagePresenter.registerCallback(this);
         selectedPagePresenter.getCategory();
