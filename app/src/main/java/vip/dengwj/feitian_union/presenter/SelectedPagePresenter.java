@@ -17,5 +17,5 @@ public interface SelectedPagePresenter extends BasePresenter<SelectedCallback> {
     /**
      *  重新加载内容
      */
-    void reloadContent();
+    void reloadContent(int categoryId);
 }
