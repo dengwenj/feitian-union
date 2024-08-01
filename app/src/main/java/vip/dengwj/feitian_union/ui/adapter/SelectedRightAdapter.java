@@ -27,7 +27,6 @@ public class SelectedRightAdapter extends RecyclerView.Adapter<SelectedRightAdap
     @NonNull
     @Override
     public SelectedRightAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LogUtils.d(SelectedRightAdapter.class, "多次");
         selectedRightBinding = ItemSelectedRightBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new Holder(selectedRightBinding.getRoot());
     }
@@ -43,13 +42,7 @@ public class SelectedRightAdapter extends RecyclerView.Adapter<SelectedRightAdap
         Glide.with(holder.itemView.getContext()).load(UrlUtils.getCoverPath(item.getCover(), 200)).into(imageView);
         sheng1.setText("领券省" + String.format("%.2f", item.getCouponAmount()) + "元");
         text.setText(item.getTitle());
-        yj.setText("原价：" + String.format("%.2f", item.getJustPrice()) + "元");
-    }
-
-    // TODO：数据错乱问题
-    @Override
-    public int getItemViewType(int position) {
-        return position;
+        yj.setText("原价：" + String.format("%.2f", Float.parseFloat(item.getJustPrice())) + "元");
     }
 
     @Override

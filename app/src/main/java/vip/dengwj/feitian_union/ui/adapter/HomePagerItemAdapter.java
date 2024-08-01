@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,8 +70,15 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
         public void setData(HomePagerContent.DataBean.ListBean item) {
             Context context = itemView.getContext();
 
+            TextView sheng = itemView.findViewById(R.id.sheng);
+            TextView oldPrice = itemView.findViewById(R.id.old_price);
+            TextView newPrice = itemView.findViewById(R.id.new_price);
+            TextView goumai = itemView.findViewById(R.id.goumai);
+            ImageView imageView = itemView.findViewById(R.id.cover);
+            LinearLayout itemHomePage = itemView.findViewById(R.id.item_home_page);
+
             itemHomePageBinding.title.setText(item.getTitle());
-            ImageView imageView = itemHomePageBinding.cover;
+            // ImageView imageView = itemHomePageBinding.cover;
             ViewGroup.LayoutParams layoutParams = imageView.getLayoutParams();
             int width = layoutParams.width;
             int height = layoutParams.height;
@@ -78,14 +87,14 @@ public class HomePagerItemAdapter extends RecyclerView.Adapter<HomePagerItemAdap
             String format = String.format(
                     String.format(context.getString(R.string.sheng), String.format("%.2f", item.getCouponAmount()))
             );
-            itemHomePageBinding.sheng.setText(format);
-            itemHomePageBinding.oldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            itemHomePageBinding.oldPrice.setText(context.getString(R.string.old_price, item.getJustPrice()));
-            itemHomePageBinding.newPrice.setText(String.format("%.2f", Float.parseFloat(item.getZkFinalPrice())));
-            itemHomePageBinding.goumai.setText(String.format(context.getString(R.string.goumai), item.getSellCount()));
+            sheng.setText(format);
+            oldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            oldPrice.setText(context.getString(R.string.old_price, item.getJustPrice()));
+            newPrice.setText(String.format("%.2f", Float.parseFloat(item.getZkFinalPrice())));
+            goumai.setText(String.format(context.getString(R.string.goumai), item.getSellCount()));
 
             // 点击 item
-            itemHomePageBinding.itemHomePage.setOnClickListener(v -> {
+            itemHomePage.setOnClickListener(v -> {
                 if (onListItemListener != null) {
                     onListItemListener.onItemClick(item);
                 }
