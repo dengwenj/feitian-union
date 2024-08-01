@@ -33,7 +33,6 @@ public abstract class BaseFragment extends Fragment {
         View rootView = loadRootView(inflater, container);
         frameLayout = rootView.findViewById(R.id.base_fragment_layout);
         View view = loadStateView(inflater, container);
-
         // 创建视图
         initView(view);
         // 创建 Presenter

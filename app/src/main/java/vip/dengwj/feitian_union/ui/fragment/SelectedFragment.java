@@ -50,6 +50,7 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
 
     @Override
     public void initListener() {
+        super.initListener();
         selectedLeftAdapter.setOnCategoryLeftClickListener(this::handleClickLeftCategory);
         selectedRightAdapter.setOnLygmClickListener(this::handleClickLqgm);
     }
@@ -102,5 +103,10 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
     @Override
     public void onEmpty() {
         setupState(State.EMPTY);
+    }
+
+    @Override
+    public void resetNetworkError() {
+        selectedPagePresenter.getCategory();
     }
 }
