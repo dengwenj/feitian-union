@@ -53,10 +53,11 @@ public class SelectedLeftAdapter extends RecyclerView.Adapter<SelectedLeftAdapte
             super(itemView);
             textView = itemView.findViewById(R.id.category_title);
             textView.setOnClickListener(v -> {
-                currentPosition = (Integer) v.getTag();
+                currentPosition = (Integer) v.getTag(R.string.position);
                 notifyDataSetChanged();
                 if (onCategoryLeftClickListener != null) {
-                    onCategoryLeftClickListener.onCategoryLeftClick();
+                    Integer categoryId = (Integer) v.getTag(R.string.category_id);
+                    onCategoryLeftClickListener.onCategoryLeftClick(categoryId);
                 }
             });
         }
@@ -64,7 +65,8 @@ public class SelectedLeftAdapter extends RecyclerView.Adapter<SelectedLeftAdapte
         public void setData(SelectedCategory.DataBean dataBean, int position) {
             textView.setText(dataBean.getMaterialName());
             // 做个标识
-            textView.setTag(position);
+            textView.setTag(R.string.position, position);
+            textView.setTag(R.string.category_id, dataBean.getMaterialId());
 
             if (position == currentPosition) {
                 textView.setBackgroundColor(
@@ -83,6 +85,6 @@ public class SelectedLeftAdapter extends RecyclerView.Adapter<SelectedLeftAdapte
     }
 
     public interface OnCategoryLeftClickListener {
-        void onCategoryLeftClick();
+        void onCategoryLeftClick(int categoryId);
     }
 }

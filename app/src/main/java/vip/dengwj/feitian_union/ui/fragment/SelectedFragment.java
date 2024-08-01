@@ -40,11 +40,8 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
 
     @Override
     public void initListener() {
-        selectedLeftAdapter.setOnCategoryLeftClickListener(new SelectedLeftAdapter.OnCategoryLeftClickListener() {
-            @Override
-            public void onCategoryLeftClick() {
-                LogUtils.d(SelectedFragment.class, "SelectedFragment");
-            }
+        selectedLeftAdapter.setOnCategoryLeftClickListener((categoryId) -> {
+            LogUtils.d(SelectedFragment.class, "categoryId -> " + categoryId);
         });
     }
 
