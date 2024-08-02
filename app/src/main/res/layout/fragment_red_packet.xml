@@ -2,21 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#eeeeee">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:text="特惠宝贝"
-        android:textColor="@color/white"
         android:background="@color/colorPrimary"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
-        android:textStyle="bold"/>
+        android:text="特惠宝贝"
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:background="#eeeeee"
-        android:id="@+id/red_packet_list"
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/red_packet_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/red_packet_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never" />
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
 </LinearLayout>

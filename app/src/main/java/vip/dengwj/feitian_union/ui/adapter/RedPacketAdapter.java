@@ -63,6 +63,13 @@ public class RedPacketAdapter extends RecyclerView.Adapter<RedPacketAdapter.Hold
         notifyDataSetChanged();
     }
 
+    public void addData(List<HomePagerContent.DataBean.ListBean> list) {
+        int oldSize = this.list.size();
+        this.list.addAll(list);
+        // 更新部分 UI
+        notifyItemRangeChanged(oldSize - 1, list.size());
+    }
+
     public class Holder extends RecyclerView.ViewHolder {
 
         public Holder(@NonNull View itemView) {

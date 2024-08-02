@@ -29,7 +29,10 @@ public class RedPacketPresenterImpl implements RedPacketPresenter {
             return;
         }
         isLoading = true;
-        handleLoading();
+        // 加载更多时不 Loading
+        if (!isLoadMore) {
+            handleLoading();
+        }
 
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
         API api = retrofit.create(API.class);
