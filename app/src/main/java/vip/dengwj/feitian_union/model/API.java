@@ -28,4 +28,7 @@ public interface API {
 
     @GET("shop/material/list")
     Call<SelectedCategory> getCategory();
+
+    @GET
+    Call<HomePagerContent> getYouLikeContent(@Url String url);
 }

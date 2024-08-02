@@ -8,4 +8,8 @@ public class UrlUtils {
     public static String getCoverPath(String path, int size) {
         return "https:" + path + "_" + size + "x" + size + ".jpg";
     }
+
+    public static String youLikeUrl(int page) {
+        return "/shop/r/" + page;
+    }
 }

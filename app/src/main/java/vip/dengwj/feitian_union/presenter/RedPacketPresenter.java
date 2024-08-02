@@ -7,7 +7,7 @@ public interface RedPacketPresenter extends BasePresenter<RedPacketCallback> {
     /**
      * 加载特惠内容
      */
-    void getOnSellContent();
+    void getOnSellContent(boolean isLoadMore);
 
     /**
      * 重新加载内容
