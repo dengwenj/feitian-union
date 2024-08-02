@@ -1,7 +1,9 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -31,6 +33,11 @@ public class SelectedFragment extends BaseFragment implements SelectedCallback {
     @Override
     public int loadRootViewId() {
         return R.layout.fragment_selected;
+    }
+
+    @Override
+    public View loadRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.base_selected_fragment_layout, container, false);
     }
 
     @Override

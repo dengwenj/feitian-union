@@ -1,7 +1,9 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 
@@ -32,6 +34,11 @@ public class RedPackedFragment extends BaseFragment implements RedPacketCallback
     @Override
     public int loadRootViewId() {
         return R.layout.fragment_red_packet;
+    }
+
+    @Override
+    public View loadRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.base_red_packet_fragment_layout, container, false);
     }
 
     @Override
