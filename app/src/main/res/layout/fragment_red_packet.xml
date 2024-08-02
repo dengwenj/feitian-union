@@ -15,6 +15,7 @@
         android:textStyle="bold"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:background="#eeeeee"
         android:id="@+id/red_packet_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
