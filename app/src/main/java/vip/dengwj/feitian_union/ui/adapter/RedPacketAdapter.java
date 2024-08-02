@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +26,8 @@ import vip.dengwj.feitian_union.utils.UrlUtils;
 public class RedPacketAdapter extends RecyclerView.Adapter<RedPacketAdapter.Holder> {
     private final List<HomePagerContent.DataBean.ListBean> list = new ArrayList<>();
 
+    private OnItemClickListener onItemClickListener;
+
     @NonNull
     @Override
     public RedPacketAdapter.Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -37,6 +40,7 @@ public class RedPacketAdapter extends RecyclerView.Adapter<RedPacketAdapter.Hold
         View itemView = holder.itemView;
         HomePagerContent.DataBean.ListBean listBean = list.get(position);
 
+        LinearLayout linearLayout = itemView.findViewById(R.id.red_packet_item);
         ImageView imageView = itemView.findViewById(R.id.img);
         TextView title = itemView.findViewById(R.id.title);
         TextView oldPrice = itemView.findViewById(R.id.old_price);
@@ -49,6 +53,11 @@ public class RedPacketAdapter extends RecyclerView.Adapter<RedPacketAdapter.Hold
         oldPrice.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         String newP = "券后价：" + String.format("%.2f", Float.parseFloat(listBean.getZkFinalPrice()));
         newPrice.setText(newP);
+
+        linearLayout.setOnClickListener(v -> {
+            if (onItemClickListener == null) return;
+            onItemClickListener.onItemClick(listBean.getTitle(), listBean.getCouponShareUrl(), listBean.getCover());
+        });
     }
 
     @Override
@@ -67,7 +76,7 @@ public class RedPacketAdapter extends RecyclerView.Adapter<RedPacketAdapter.Hold
         int oldSize = this.list.size();
         this.list.addAll(list);
         // 更新部分 UI
-        notifyItemRangeChanged(oldSize - 1, list.size());
+        notifyItemRangeChanged(oldSize, list.size());
     }
 
     public class Holder extends RecyclerView.ViewHolder {
@@ -75,5 +84,13 @@ public class RedPacketAdapter extends RecyclerView.Adapter<RedPacketAdapter.Hold
         public Holder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(String title, String url, String cover);
     }
 }

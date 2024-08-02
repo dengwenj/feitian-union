@@ -1,5 +1,6 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.content.Intent;
 import android.view.View;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,6 +15,8 @@ import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.FragmentRedPacketBinding;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.presenter.RedPacketPresenter;
+import vip.dengwj.feitian_union.presenter.TicketPresenter;
+import vip.dengwj.feitian_union.ui.activity.TicketActivity;
 import vip.dengwj.feitian_union.ui.adapter.RedPacketAdapter;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.PresenterManager;
@@ -40,6 +43,15 @@ public class RedPackedFragment extends BaseFragment implements RedPacketCallback
         redPacketAdapter = new RedPacketAdapter();
         redPacketBinding.redPacketList.setAdapter(redPacketAdapter);
         redPacketBinding.redPacketRefresh.setEnableRefresh(false);
+
+        redPacketAdapter.setOnItemClickListener(this::handleClickToTicket);
+    }
+
+    private void handleClickToTicket(String title, String url, String cover) {
+        TicketPresenter ticketPresenter = PresenterManager.getInstance().getTicketPresenter();
+        ticketPresenter.getTicket(title, url, cover);
+        Intent intent = new Intent(getContext(), TicketActivity.class);
+        startActivity(intent);
     }
 
     @Override
