@@ -2,12 +2,16 @@ package vip.dengwj.feitian_union.ui.fragment;
 
 import android.view.View;
 
+import androidx.recyclerview.widget.GridLayoutManager;
+
 import java.util.List;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
+import vip.dengwj.feitian_union.databinding.FragmentRedPacketBinding;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.presenter.RedPacketPresenter;
+import vip.dengwj.feitian_union.ui.adapter.RedPacketAdapter;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.PresenterManager;
 import vip.dengwj.feitian_union.view.RedPacketCallback;
@@ -15,6 +19,8 @@ import vip.dengwj.feitian_union.view.RedPacketCallback;
 public class RedPackedFragment extends BaseFragment implements RedPacketCallback {
 
     private RedPacketPresenter redPacketPresenter;
+    private FragmentRedPacketBinding redPacketBinding;
+    private RedPacketAdapter redPacketAdapter;
 
     @Override
     public int loadRootViewId() {
@@ -24,6 +30,11 @@ public class RedPackedFragment extends BaseFragment implements RedPacketCallback
     @Override
     public void initView(View rootView) {
         setupState(State.SUCCESS);
+        redPacketBinding = FragmentRedPacketBinding.bind(rootView);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        redPacketBinding.redPacketList.setLayoutManager(gridLayoutManager);
+        redPacketAdapter = new RedPacketAdapter();
+        redPacketBinding.redPacketList.setAdapter(redPacketAdapter);
     }
 
     @Override
@@ -57,6 +68,7 @@ public class RedPackedFragment extends BaseFragment implements RedPacketCallback
     @Override
     public void onContentLoadedSuccess(List<HomePagerContent.DataBean.ListBean> list) {
         LogUtils.d(RedPackedFragment.class, "list -> " + list);
+        redPacketAdapter.setData(list);
         setupState(State.SUCCESS);
     }
 
