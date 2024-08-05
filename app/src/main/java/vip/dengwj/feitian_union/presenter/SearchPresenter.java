@@ -17,7 +17,7 @@ public interface SearchPresenter extends BasePresenter<SearchCallback> {
     /**
      * 搜索
      */
-    void doSearch(String keyword);
+    void doSearch(String keyword, boolean isLoadMore);
 
     /**
      * 重新搜索

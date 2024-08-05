@@ -23,6 +23,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     private Integer page = 1;
 
     private SearchCallback searchCallback;
+    private String keyword;
 
     public SearchPresenterImpl() {
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
@@ -43,22 +44,52 @@ public class SearchPresenterImpl implements SearchPresenter {
      * 搜索
      */
     @Override
-    public void doSearch(String keyword) {
+    public void doSearch(String keyword, boolean isLoadMore) {
+        this.keyword = keyword;
         String url = "/shop/s/" + page + "?k=" + keyword;
         api.getSearchList(url).enqueue(new Callback<HomePagerContent>() {
             @Override
             public void onResponse(Call<HomePagerContent> call, Response<HomePagerContent> response) {
                 if (response.code() == HTTP_OK) {
                     assert response.body() != null;
-                    handleDoSearchSuccess(response.body().getData().getList());
+
+                    // 上拉加载
+                    if (isLoadMore) {
+                        handleLoadMoreSearchSuccess(response.body().getData().getList());
+                    } else {
+                        // 搜索
+                        handleDoSearchSuccess(response.body().getData().getList());
+                    }
+                } else {
+                    if (isLoadMore) {
+                        handleLoadMoreError();
+                    }
                 }
             }
 
             @Override
             public void onFailure(Call<HomePagerContent> call, Throwable t) {
-
+                if (isLoadMore) {
+                    handleLoadMoreError();
+                }
             }
         });
+    }
+
+    private void handleLoadMoreError() {
+        if (searchCallback != null) {
+            searchCallback.onMoreLoadedError();
+        }
+    }
+
+    private void handleLoadMoreSearchSuccess(List<HomePagerContent.DataBean.ListBean> list) {
+        if (searchCallback != null) {
+            if (list.isEmpty()) {
+                searchCallback.onMoreLoadedEmpty();
+            } else {
+                searchCallback.onMoreLoaded(list);
+            }
+        }
     }
 
     private void handleDoSearchSuccess(List<HomePagerContent.DataBean.ListBean> list) {
@@ -69,12 +100,13 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     @Override
     public void research() {
-
+        doSearch(keyword, false);
     }
 
     @Override
     public void loaderMore() {
-
+        page++;
+        doSearch(keyword, true);
     }
 
     /**
