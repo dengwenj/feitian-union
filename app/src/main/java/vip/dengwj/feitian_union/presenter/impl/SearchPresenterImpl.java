@@ -10,34 +10,62 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import vip.dengwj.feitian_union.model.API;
+import vip.dengwj.feitian_union.model.domain.HistoryWord;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.Recommend;
 import vip.dengwj.feitian_union.presenter.SearchPresenter;
+import vip.dengwj.feitian_union.utils.JsonCacheUtil;
 import vip.dengwj.feitian_union.utils.RetrofitManager;
 import vip.dengwj.feitian_union.view.SearchCallback;
 
 public class SearchPresenterImpl implements SearchPresenter {
 
     private final API api;
+    private final JsonCacheUtil jsonCacheUtil;
 
     private Integer page = 1;
 
     private SearchCallback searchCallback;
     private String keyword;
 
+    private static final String keyHistory = "key_history";
+    private static final Integer historySize = 10;
+
     public SearchPresenterImpl() {
         Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
         api = retrofit.create(API.class);
+        jsonCacheUtil = JsonCacheUtil.getInstance();
     }
 
     @Override
     public void getHistories() {
+        if (searchCallback != null) {
+            HistoryWord val = jsonCacheUtil.getVal(keyHistory, HistoryWord.class);
+            searchCallback.onHistoryLoaded(val.getHistoryList());
+        }
 
     }
 
     @Override
     public void deleteHistory() {
+        if (searchCallback != null) {
+            jsonCacheUtil.delVal(keyHistory);
+            searchCallback.onHistoryDeleted();
+        }
+    }
 
+    private void saveHistory(String history) {
+        // 如果已经存在就删除，然后在保存
+        HistoryWord historyWord = jsonCacheUtil.getVal(keyHistory, HistoryWord.class);
+        List<String> historyList = historyWord.getHistoryList();
+        // 先删除
+        historyList.remove(history);
+        // 再保存
+        historyList.add(0, history);
+        // 对个数进行限制
+        historyList.subList(0, historySize);
+        historyWord.setHistoryList(historyList);
+        jsonCacheUtil.saveVal(keyHistory, historyWord);
     }
 
     /**
@@ -45,7 +73,10 @@ public class SearchPresenterImpl implements SearchPresenter {
      */
     @Override
     public void doSearch(String keyword, boolean isLoadMore) {
-        this.keyword = keyword;
+        if (!this.keyword.equals(keyword)) {
+            saveHistory(keyword);
+            this.keyword = keyword;
+        }
         String url = "/shop/s/" + page + "?k=" + keyword;
         api.getSearchList(url).enqueue(new Callback<HomePagerContent>() {
             @Override

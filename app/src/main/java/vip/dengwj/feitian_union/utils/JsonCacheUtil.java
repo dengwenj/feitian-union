@@ -29,12 +29,11 @@ public class JsonCacheUtil {
 
         String valStr = gson.toJson(val);
 
-        CacheWithDuration cacheWithDuration = new CacheWithDuration(duration, valStr);
         // 方便后续判断时间是否过期
         if (duration != -1) {
             duration += System.currentTimeMillis();
-            cacheWithDuration.setDuration(duration);
         }
+        CacheWithDuration cacheWithDuration = new CacheWithDuration(duration, valStr);
         String json = gson.toJson(cacheWithDuration);
         edit.putString(key, json);
 
