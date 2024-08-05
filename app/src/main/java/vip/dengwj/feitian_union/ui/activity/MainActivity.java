@@ -3,10 +3,14 @@ package vip.dengwj.feitian_union.ui.activity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseActivity;
 import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.ActivityMainBinding;
+import vip.dengwj.feitian_union.ui.custom.TextFlowView;
 import vip.dengwj.feitian_union.ui.fragment.HomeFragment;
 import vip.dengwj.feitian_union.ui.fragment.RedPackedFragment;
 import vip.dengwj.feitian_union.ui.fragment.SearchFragment;
@@ -31,6 +35,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void initView() {
         // 初始化 fragment
         initFragment();
+
+        TextFlowView textFlowView = findViewById(R.id.text_flow_view);
+        List<String> list = new ArrayList<>();
+        list.add("李雷");
+        textFlowView.setTextList(list);
+        textFlowView.setHorizontalSpace(20);
+        textFlowView.setVerticalSpace(30);
     }
 
     @Override
