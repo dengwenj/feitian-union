@@ -10,6 +10,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import vip.dengwj.feitian_union.model.API;
+import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.Recommend;
 import vip.dengwj.feitian_union.presenter.SearchPresenter;
 import vip.dengwj.feitian_union.utils.RetrofitManager;
@@ -18,6 +19,8 @@ import vip.dengwj.feitian_union.view.SearchCallback;
 public class SearchPresenterImpl implements SearchPresenter {
 
     private final API api;
+
+    private Integer page = 1;
 
     private SearchCallback searchCallback;
 
@@ -36,9 +39,32 @@ public class SearchPresenterImpl implements SearchPresenter {
 
     }
 
+    /**
+     * 搜索
+     */
     @Override
     public void doSearch(String keyword) {
+        String url = "/shop/s/" + page + "?k=" + keyword;
+        api.getSearchList(url).enqueue(new Callback<HomePagerContent>() {
+            @Override
+            public void onResponse(Call<HomePagerContent> call, Response<HomePagerContent> response) {
+                if (response.code() == HTTP_OK) {
+                    assert response.body() != null;
+                    handleDoSearchSuccess(response.body().getData().getList());
+                }
+            }
 
+            @Override
+            public void onFailure(Call<HomePagerContent> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void handleDoSearchSuccess(List<HomePagerContent.DataBean.ListBean> list) {
+        if (searchCallback != null) {
+            searchCallback.onSearchSuccess(list);
+        }
     }
 
     @Override

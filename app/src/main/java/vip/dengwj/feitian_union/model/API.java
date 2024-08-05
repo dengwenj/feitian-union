@@ -35,4 +35,7 @@ public interface API {
 
     @GET("shop/search-word")
     Call<Recommend> getRecommend();
+
+    @GET
+    Call<HomePagerContent> getSearchList(@Url String url);
 }
