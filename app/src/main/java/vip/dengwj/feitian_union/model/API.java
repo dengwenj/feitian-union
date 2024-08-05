@@ -9,6 +9,7 @@ import retrofit2.http.Url;
 import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.LoopList;
+import vip.dengwj.feitian_union.model.domain.Recommend;
 import vip.dengwj.feitian_union.model.domain.SelectedCategory;
 import vip.dengwj.feitian_union.model.domain.Ticket;
 import vip.dengwj.feitian_union.model.domain.TicketParams;
@@ -31,4 +32,7 @@ public interface API {
 
     @GET
     Call<HomePagerContent> getYouLikeContent(@Url String url);
+
+    @GET("shop/search-word")
+    Call<Recommend> getRecommend();
 }
