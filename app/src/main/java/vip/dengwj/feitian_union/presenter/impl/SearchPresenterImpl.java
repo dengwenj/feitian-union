@@ -2,6 +2,7 @@ package vip.dengwj.feitian_union.presenter.impl;
 
 import static java.net.HttpURLConnection.HTTP_OK;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +29,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     private SearchCallback searchCallback;
     private String keyword;
 
-    private static final String keyHistory = "key_history";
+    public static final String keyHistory = "key_history";
     private static final Integer historySize = 10;
 
     public SearchPresenterImpl() {
@@ -57,13 +58,21 @@ public class SearchPresenterImpl implements SearchPresenter {
     private void saveHistory(String history) {
         // 如果已经存在就删除，然后在保存
         HistoryWord historyWord = jsonCacheUtil.getVal(keyHistory, HistoryWord.class);
+        if (historyWord == null) {
+            historyWord = new HistoryWord();
+        }
         List<String> historyList = historyWord.getHistoryList();
+        if (historyList == null) {
+            historyList = new ArrayList<>();
+        }
         // 先删除
         historyList.remove(history);
         // 再保存
         historyList.add(0, history);
         // 对个数进行限制
-        historyList.subList(0, historySize);
+        if (historyList.size() > historySize) {
+            historyList.subList(0, historySize);
+        }
         historyWord.setHistoryList(historyList);
         jsonCacheUtil.saveVal(keyHistory, historyWord);
     }
@@ -73,7 +82,7 @@ public class SearchPresenterImpl implements SearchPresenter {
      */
     @Override
     public void doSearch(String keyword, boolean isLoadMore) {
-        if (!this.keyword.equals(keyword)) {
+        if (this.keyword == null || !this.keyword.equals(keyword)) {
             saveHistory(keyword);
             this.keyword = keyword;
         }

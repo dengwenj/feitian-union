@@ -1,6 +1,8 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -22,6 +24,11 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
     }
 
     @Override
+    public View loadRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.base_search_fragment_layout, container, false);
+    }
+
+    @Override
     public void initView(View rootView) {
         setupState(State.SUCCESS);
     }
@@ -30,7 +37,12 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
     public void initPresenter() {
         searchPresenter = PresenterManager.getInstance().getSearchPresenter();
         searchPresenter.registerCallback(this);
+        // 获取推荐词
         searchPresenter.getRecommendWords();
+        // 搜索
+        searchPresenter.doSearch("女装", false);
+        // 历史记录
+        searchPresenter.getHistories();
     }
 
     @Override
@@ -40,7 +52,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onHistoryLoaded(List<String> historyList) {
-
+        LogUtils.d(SearchFragment.class, "historyList ->" + historyList);
     }
 
     @Override
@@ -50,7 +62,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onSearchSuccess(List<HomePagerContent.DataBean.ListBean> list) {
-
+        LogUtils.d(SearchFragment.class, "list -> " + list);
     }
 
     @Override

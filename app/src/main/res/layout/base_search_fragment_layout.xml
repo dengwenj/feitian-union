@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:paddingLeft="10dp">
+
+       <EditText
+           android:layout_toLeftOf="@+id/close"
+           android:layout_width="match_parent"
+           android:layout_height="30dp"
+           android:hint="搜索你想搜的宝贝..."
+           android:textColorHint="#ccc"
+           android:paddingLeft="20dp"
+           android:textSize="12dp"
+           android:layout_centerVertical="true"
+           android:background="@drawable/edit_bg"/>
+
+        <TextView
+            android:id="@+id/close"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="取消"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/base_fragment_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
