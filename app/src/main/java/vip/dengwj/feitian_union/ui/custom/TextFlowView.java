@@ -52,6 +52,7 @@ public class TextFlowView extends ViewGroup {
      * 设置数据
      */
     public void setTextList(List<String> list) {
+        removeAllViews();
         for (String val : list) {
             TextView item = (TextView) LayoutInflater
                     .from(getContext())

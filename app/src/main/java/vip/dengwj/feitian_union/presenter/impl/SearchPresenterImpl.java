@@ -16,6 +16,7 @@ import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.model.domain.Recommend;
 import vip.dengwj.feitian_union.presenter.SearchPresenter;
 import vip.dengwj.feitian_union.utils.JsonCacheUtil;
+import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.RetrofitManager;
 import vip.dengwj.feitian_union.view.SearchCallback;
 
@@ -85,6 +86,9 @@ public class SearchPresenterImpl implements SearchPresenter {
         if (this.keyword == null || !this.keyword.equals(keyword)) {
             saveHistory(keyword);
             this.keyword = keyword;
+        }
+        if (!isLoadMore) {
+            page = 1;
         }
         String url = "/shop/s/" + page + "?k=" + keyword;
         api.getSearchList(url).enqueue(new Callback<HomePagerContent>() {

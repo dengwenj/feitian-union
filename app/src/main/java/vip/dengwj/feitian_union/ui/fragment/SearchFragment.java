@@ -2,11 +2,18 @@ package vip.dengwj.feitian_union.ui.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 
 import java.util.List;
 
@@ -18,15 +25,22 @@ import vip.dengwj.feitian_union.presenter.SearchPresenter;
 import vip.dengwj.feitian_union.presenter.TicketPresenter;
 import vip.dengwj.feitian_union.ui.activity.TicketActivity;
 import vip.dengwj.feitian_union.ui.adapter.HomePagerItemAdapter;
+import vip.dengwj.feitian_union.utils.HideInputUtil;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.PresenterManager;
+import vip.dengwj.feitian_union.utils.ToastUtils;
 import vip.dengwj.feitian_union.view.SearchCallback;
 
-public class SearchFragment extends BaseFragment implements SearchCallback {
+public class SearchFragment extends BaseFragment implements SearchCallback, TextWatcher {
 
     private SearchPresenter searchPresenter;
     private FragmentSearchBinding searchBinding;
     private HomePagerItemAdapter homePagerItemAdapter;
+    private View baseSearchLayout;
+    private TextView editRightBtn;
+
+    private String keyWords;
+    private EditText editText;
 
     @Override
     public int loadRootViewId() {
@@ -35,7 +49,8 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public View loadRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.base_search_fragment_layout, container, false);
+        baseSearchLayout = inflater.inflate(R.layout.base_search_fragment_layout, container, false);
+        return baseSearchLayout;
     }
 
     @Override
@@ -48,6 +63,32 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         searchBinding.searchRecyclerView.setLayoutManager(layoutManager);
         homePagerItemAdapter = new HomePagerItemAdapter();
         searchBinding.searchRecyclerView.setAdapter(homePagerItemAdapter);
+        searchBinding.searchRefresh.setEnableRefresh(false);
+
+        // 顶部的搜索框
+        editRightBtn = baseSearchLayout.findViewById(R.id.edit_right_btn);
+        editRightBtn.setOnClickListener(this::handleEditRightBtn);
+        editText = baseSearchLayout.findViewById(R.id.search_edit);
+        editText.addTextChangedListener(this);
+    }
+
+    /**
+     * 点击搜索或取消
+     * @param view
+     */
+    private void handleEditRightBtn(View view) {
+        // 搜索
+        if (editRightBtn.getText().equals("搜索")) {
+            HideInputUtil.hideOneInputMethod(getActivity(), editText);
+            clickWordSearch(keyWords);
+        } else {
+            // 取消
+            editRightBtn.setText("搜索");
+            editText.setText("");
+            searchBinding.history.setVisibility(View.VISIBLE);
+            searchBinding.recommend.setVisibility(View.VISIBLE);
+            searchBinding.searchRecyclerView.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -56,8 +97,6 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         searchPresenter.registerCallback(this);
         // 获取推荐词
         searchPresenter.getRecommendWords();
-        // 搜索
-        searchPresenter.doSearch("女装", false);
         // 历史记录
         searchPresenter.getHistories();
     }
@@ -70,6 +109,12 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         searchBinding.recommendTextFlow.setOnItemClickListener(this::handleClickRecommend);
         searchBinding.imgDel.setOnClickListener(this::handleDelHistory);
         homePagerItemAdapter.setOnListItemListener(this::handleItemList);
+        searchBinding.searchRefresh.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                searchPresenter.loaderMore();
+            }
+        });
     }
 
     /**
@@ -94,7 +139,20 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
      * @param word
      */
     private void handleClickRecommend(String word) {
-        LogUtils.d(SearchFragment.class, "handleClickRecommend -> " + word);
+        clickWordSearch(word);
+    }
+
+    /**
+     * 点击了搜索
+     */
+    private void clickWordSearch(String word) {
+        keyWords = word;
+        editRightBtn.setText("取消");
+        editText.setText(keyWords);
+        setupState(State.LOADING);
+        searchPresenter.doSearch(word, false);
+        // 更新搜索历史
+        searchPresenter.getHistories();
     }
 
     /**
@@ -110,7 +168,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
      * @param word
      */
     private void handleClickHistory(String word) {
-        LogUtils.d(SearchFragment.class, "handleClickHistory -> " + word);
+        clickWordSearch(word);
     }
 
     @Override
@@ -133,8 +191,13 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         searchPresenter.getHistories();
     }
 
+    /**
+     * 搜索成功的回调
+     * @param list
+     */
     @Override
     public void onSearchSuccess(List<HomePagerContent.DataBean.ListBean> list) {
+        setupState(State.SUCCESS);
         searchBinding.history.setVisibility(View.GONE);
         searchBinding.recommend.setVisibility(View.GONE);
         searchBinding.searchRecyclerView.setVisibility(View.VISIBLE);
@@ -143,21 +206,24 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onMoreLoaded(List<HomePagerContent.DataBean.ListBean> list) {
-
+        ToastUtils.showToast("加载成功");
+        searchBinding.searchRefresh.finishLoadmore();
+        homePagerItemAdapter.addData(list);
     }
 
     @Override
     public void onMoreLoadedError() {
-
+        ToastUtils.showToast("系统错误，请稍后重试");
     }
 
     @Override
     public void onMoreLoadedEmpty() {
-
+        ToastUtils.showToast("数据加载完啦");
     }
 
     @Override
     public void onRecommendWordsLoaded(List<String> recommendWords) {
+        setupState(State.SUCCESS);
         if (recommendWords == null || recommendWords.isEmpty()) {
             searchBinding.recommend.setVisibility(View.GONE);
             return;
@@ -168,16 +234,32 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onNetworkError() {
-
+        setupState(State.ERROR);
     }
 
     @Override
     public void onLoading() {
-
+        setupState(State.LOADING);
     }
 
     @Override
     public void onEmpty() {
+        setupState(State.EMPTY);
+    }
+
+    // 搜索框
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        keyWords = s.toString();
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
 
     }
 }

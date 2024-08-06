@@ -29,7 +29,8 @@
             android:launchMode="singleTop" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan"> <!--windowSoftInputMode="adjustPan" 键盘弹起时下方的布局不变-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
