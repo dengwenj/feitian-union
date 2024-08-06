@@ -1,8 +1,12 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.List;
 
@@ -11,6 +15,9 @@ import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.FragmentSearchBinding;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.presenter.SearchPresenter;
+import vip.dengwj.feitian_union.presenter.TicketPresenter;
+import vip.dengwj.feitian_union.ui.activity.TicketActivity;
+import vip.dengwj.feitian_union.ui.adapter.HomePagerItemAdapter;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.PresenterManager;
 import vip.dengwj.feitian_union.view.SearchCallback;
@@ -19,6 +26,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     private SearchPresenter searchPresenter;
     private FragmentSearchBinding searchBinding;
+    private HomePagerItemAdapter homePagerItemAdapter;
 
     @Override
     public int loadRootViewId() {
@@ -35,6 +43,11 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         setupState(State.SUCCESS);
 
         searchBinding = FragmentSearchBinding.bind(rootView);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        searchBinding.searchRecyclerView.setLayoutManager(layoutManager);
+        homePagerItemAdapter = new HomePagerItemAdapter();
+        searchBinding.searchRecyclerView.setAdapter(homePagerItemAdapter);
     }
 
     @Override
@@ -56,6 +69,24 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         searchBinding.historyTextFlow.setOnItemClickListener(this::handleClickHistory);
         searchBinding.recommendTextFlow.setOnItemClickListener(this::handleClickRecommend);
         searchBinding.imgDel.setOnClickListener(this::handleDelHistory);
+        homePagerItemAdapter.setOnListItemListener(this::handleItemList);
+    }
+
+    /**
+     * 点击 item
+     */
+    private void handleItemList(HomePagerContent.DataBean.ListBean item) {
+        handleTicket(item.getTitle(), item.getCouponShareUrl(), item.getCover());
+    }
+
+    private void handleTicket(String title, String url, String cover) {
+        TicketPresenter ticketPresenter = PresenterManager.getInstance().getTicketPresenter();
+        ticketPresenter.getTicket(title, url, cover);
+
+        Intent intent = new Intent(getContext(), TicketActivity.class);
+        Bundle bundle = new Bundle();
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     /**
@@ -104,7 +135,10 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onSearchSuccess(List<HomePagerContent.DataBean.ListBean> list) {
-        LogUtils.d(SearchFragment.class, "list -> " + list);
+        searchBinding.history.setVisibility(View.GONE);
+        searchBinding.recommend.setVisibility(View.GONE);
+        searchBinding.searchRecyclerView.setVisibility(View.VISIBLE);
+        homePagerItemAdapter.setData(list);
     }
 
     @Override
