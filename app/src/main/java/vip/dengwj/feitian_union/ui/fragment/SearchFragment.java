@@ -46,6 +46,13 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         list.add("韩梅梅");
         list.add("韩梅梅");
         textFlowView.setTextList(list);
+
+        textFlowView.setOnItemClickListener(new TextFlowView.OnItemClickListener() {
+            @Override
+            public void onItemClick(String word) {
+                LogUtils.d(SearchFragment.class, "word -> " + word);
+            }
+        });
     }
 
     @Override

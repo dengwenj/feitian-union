@@ -21,6 +21,15 @@ public class TextFlowView extends ViewGroup {
     private int verticalSpace = DEFAULT_SPACE;
     private int parentWidth;
 
+    // 每一行
+    private List<View> line = null;
+    // 里面 item 就是每一行
+    private final List<List<View>> lineList = new ArrayList<>();
+
+    private OnItemClickListener onItemClickListener;
+
+
+
     public TextFlowView(Context context) {
         this(context, null);
     }
@@ -47,15 +56,19 @@ public class TextFlowView extends ViewGroup {
                     .from(getContext())
                     .inflate(R.layout.flow_text, this, false);
             item.setText(val);
+
+            // 点击
+            item.setOnClickListener(v -> {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(val);
+                }
+            });
+
             // 添加孩子
             addView(item);
         }
     }
 
-    // 每一行
-    private List<View> line = null;
-    // 里面 item 就是每一行
-    private final List<List<View>> lineList = new ArrayList<>();
     /**
      * 测量
      */
@@ -90,7 +103,7 @@ public class TextFlowView extends ViewGroup {
                 }
             }
         }
-        // 执行完了置为 null
+        // 执行完了置为 null，单行有用
         line = null;
 
         // 测量自己
@@ -157,5 +170,13 @@ public class TextFlowView extends ViewGroup {
 
     public void setVerticalSpace(int verticalSpace) {
         this.verticalSpace = verticalSpace;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(String word);
     }
 }
