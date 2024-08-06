@@ -71,7 +71,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
      * @param view
      */
     private void handleDelHistory(View view) {
-        LogUtils.d(SearchFragment.class, "删除了历史");
+        searchPresenter.deleteHistory();
     }
 
     /**
@@ -89,7 +89,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onHistoryLoaded(List<String> historyList) {
-        if (historyList.isEmpty()) {
+        if (historyList == null || historyList.isEmpty()) {
             searchBinding.history.setVisibility(View.GONE);
             return;
         }
@@ -99,7 +99,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onHistoryDeleted() {
-
+        searchPresenter.getHistories();
     }
 
     @Override
@@ -124,7 +124,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onRecommendWordsLoaded(List<String> recommendWords) {
-        if (recommendWords.isEmpty()) {
+        if (recommendWords == null || recommendWords.isEmpty()) {
             searchBinding.recommend.setVisibility(View.GONE);
             return;
         }

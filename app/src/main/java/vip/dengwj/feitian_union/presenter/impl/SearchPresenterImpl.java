@@ -42,7 +42,7 @@ public class SearchPresenterImpl implements SearchPresenter {
     public void getHistories() {
         if (searchCallback != null) {
             HistoryWord val = jsonCacheUtil.getVal(keyHistory, HistoryWord.class);
-            searchCallback.onHistoryLoaded(val.getHistoryList());
+            searchCallback.onHistoryLoaded(val == null ? null : val.getHistoryList());
         }
 
     }
