@@ -39,9 +39,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
         List<String> list = new ArrayList<>();
         list.add("李雷");
         list.add("朴睦");
-        list.add("韩梅梅");
-        list.add("往前了且");
-        list.add("韩梅梅");
+        list.add("今天开心吗？今天不是很开心因为我的美股大跌");
         list.add("韩梅梅");
         list.add("韩梅梅");
         list.add("韩梅梅");

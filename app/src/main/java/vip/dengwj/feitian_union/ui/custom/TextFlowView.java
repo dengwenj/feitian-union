@@ -90,6 +90,8 @@ public class TextFlowView extends ViewGroup {
                 }
             }
         }
+        // 执行完了置为 null
+        line = null;
 
         // 测量自己
         // itemView 的高度
@@ -99,6 +101,7 @@ public class TextFlowView extends ViewGroup {
                 parentWidth,
                 measuredHeight * lineSize + verticalSpace * lineSize
         );
+
     }
 
     private void createNewLine(View itemView) {
@@ -125,6 +128,7 @@ public class TextFlowView extends ViewGroup {
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        LogUtils.d(TextFlowView.class, "lineList -> " + lineList.size());
         // 布局，摆放孩子
         int top = verticalSpace;
         for (List<View> views : lineList) {
