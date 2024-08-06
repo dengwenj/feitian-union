@@ -4,12 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.presenter.SearchPresenter;
+import vip.dengwj.feitian_union.ui.custom.TextFlowView;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.PresenterManager;
 import vip.dengwj.feitian_union.view.SearchCallback;
@@ -31,6 +33,21 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
     @Override
     public void initView(View rootView) {
         setupState(State.SUCCESS);
+
+        TextFlowView textFlowView = rootView.findViewById(R.id.text_flow_view);
+        LogUtils.d(HomeFragment.class, "textFlowView ->" + textFlowView);
+        List<String> list = new ArrayList<>();
+        list.add("李雷");
+        list.add("朴睦");
+        list.add("韩梅梅");
+        list.add("往前了且");
+        list.add("韩梅梅");
+        list.add("韩梅梅");
+        list.add("韩梅梅");
+        list.add("韩梅梅");
+        list.add("韩梅梅");
+        list.add("韩梅梅");
+        textFlowView.setTextList(list);
     }
 
     @Override

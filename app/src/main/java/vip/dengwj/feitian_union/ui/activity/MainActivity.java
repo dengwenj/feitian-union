@@ -35,13 +35,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     public void initView() {
         // 初始化 fragment
         initFragment();
-
-        TextFlowView textFlowView = findViewById(R.id.text_flow_view);
-        List<String> list = new ArrayList<>();
-        list.add("李雷");
-        textFlowView.setTextList(list);
-        textFlowView.setHorizontalSpace(20);
-        textFlowView.setVerticalSpace(30);
     }
 
     @Override

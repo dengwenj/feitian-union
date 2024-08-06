@@ -7,11 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
-    <vip.dengwj.feitian_union.ui.custom.TextFlowView
-        android:id="@+id/text_flow_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <!--最大的 fragment-->
     <FrameLayout
         android:id="@+id/main_page_container_frame_layout"

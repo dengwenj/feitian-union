@@ -53,9 +53,9 @@ public class TextFlowView extends ViewGroup {
     }
 
     // 每一行
-    private List<View> line = new ArrayList<>();
+    private List<View> line = null;
     // 里面 item 就是每一行
-    private List<List<View>> lineList = new ArrayList<>();
+    private final List<List<View>> lineList = new ArrayList<>();
     /**
      * 测量
      */
@@ -66,6 +66,8 @@ public class TextFlowView extends ViewGroup {
         // widthMeasureSpec 两部分组成，一个模式，一个值
         // 获取值
         parentWidth = MeasureSpec.getSize(widthMeasureSpec);
+        // 先清除
+        lineList.clear();
 
         // 测量孩子
         int childCount = getChildCount();
@@ -75,7 +77,7 @@ public class TextFlowView extends ViewGroup {
             measureChild(itemView, widthMeasureSpec, heightMeasureSpec);
 
             // 如果当前行是空直接添加进去
-            if (line.isEmpty()) {
+            if (line == null) {
                 createNewLine(itemView);
             } else {
                 // 当前行不为空判断能是否添加当该行
@@ -100,6 +102,7 @@ public class TextFlowView extends ViewGroup {
     }
 
     private void createNewLine(View itemView) {
+        line = new ArrayList<>();
         line.add(itemView);
         lineList.add(line);
     }
@@ -117,13 +120,23 @@ public class TextFlowView extends ViewGroup {
         }
         // 间距
         totalWidth += (line.size() + 1) * horizontalSpace;
-
         return totalWidth <= parentWidth;
     }
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         // 布局，摆放孩子
+        int top = verticalSpace;
+        for (List<View> views : lineList) {
+            // 每一行
+            int left = horizontalSpace;
+            for (View view : views) {
+                // 摆放
+                view.layout(left, top, left + view.getMeasuredWidth(), top + view.getMeasuredHeight());
+                left += view.getMeasuredWidth() + horizontalSpace;
+            }
+            top += getChildAt(0).getMeasuredHeight() + verticalSpace;
+        }
     }
 
     public int getHorizontalSpace() {
