@@ -4,14 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
+import vip.dengwj.feitian_union.databinding.FragmentSearchBinding;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.presenter.SearchPresenter;
-import vip.dengwj.feitian_union.ui.custom.TextFlowView;
 import vip.dengwj.feitian_union.utils.LogUtils;
 import vip.dengwj.feitian_union.utils.PresenterManager;
 import vip.dengwj.feitian_union.view.SearchCallback;
@@ -19,6 +18,7 @@ import vip.dengwj.feitian_union.view.SearchCallback;
 public class SearchFragment extends BaseFragment implements SearchCallback {
 
     private SearchPresenter searchPresenter;
+    private FragmentSearchBinding searchBinding;
 
     @Override
     public int loadRootViewId() {
@@ -34,25 +34,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
     public void initView(View rootView) {
         setupState(State.SUCCESS);
 
-        TextFlowView textFlowView = rootView.findViewById(R.id.text_flow_view);
-        LogUtils.d(HomeFragment.class, "textFlowView ->" + textFlowView);
-        List<String> list = new ArrayList<>();
-        list.add("李雷");
-        list.add("朴睦");
-        list.add("今天开心吗？今天不是很开心因为我的美股大跌");
-        list.add("韩梅梅");
-        list.add("韩梅梅");
-        list.add("韩梅梅");
-        list.add("韩梅梅");
-        list.add("韩梅梅");
-        textFlowView.setTextList(list);
-
-        textFlowView.setOnItemClickListener(new TextFlowView.OnItemClickListener() {
-            @Override
-            public void onItemClick(String word) {
-                LogUtils.d(SearchFragment.class, "word -> " + word);
-            }
-        });
+        searchBinding = FragmentSearchBinding.bind(rootView);
     }
 
     @Override
@@ -68,13 +50,51 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
     }
 
     @Override
+    public void initListener() {
+        super.initListener();
+
+        searchBinding.historyTextFlow.setOnItemClickListener(this::handleClickHistory);
+        searchBinding.recommendTextFlow.setOnItemClickListener(this::handleClickRecommend);
+        searchBinding.imgDel.setOnClickListener(this::handleDelHistory);
+    }
+
+    /**
+     * 点击热搜推荐
+     * @param word
+     */
+    private void handleClickRecommend(String word) {
+        LogUtils.d(SearchFragment.class, "handleClickRecommend -> " + word);
+    }
+
+    /**
+     * 删除历史
+     * @param view
+     */
+    private void handleDelHistory(View view) {
+        LogUtils.d(SearchFragment.class, "删除了历史");
+    }
+
+    /**
+     * 点击 历史记录
+     * @param word
+     */
+    private void handleClickHistory(String word) {
+        LogUtils.d(SearchFragment.class, "handleClickHistory -> " + word);
+    }
+
+    @Override
     public void release() {
         searchPresenter.unregisterCallback(this);
     }
 
     @Override
     public void onHistoryLoaded(List<String> historyList) {
-        LogUtils.d(SearchFragment.class, "historyList ->" + historyList);
+        if (historyList.isEmpty()) {
+            searchBinding.history.setVisibility(View.GONE);
+            return;
+        }
+        searchBinding.history.setVisibility(View.VISIBLE);
+        searchBinding.historyTextFlow.setTextList(historyList);
     }
 
     @Override
@@ -104,7 +124,12 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
 
     @Override
     public void onRecommendWordsLoaded(List<String> recommendWords) {
-        LogUtils.d(SearchFragment.class, "recommendWords ->" + recommendWords);
+        if (recommendWords.isEmpty()) {
+            searchBinding.recommend.setVisibility(View.GONE);
+            return;
+        }
+        searchBinding.recommend.setVisibility(View.VISIBLE);
+        searchBinding.recommendTextFlow.setTextList(recommendWords);
     }
 
     @Override

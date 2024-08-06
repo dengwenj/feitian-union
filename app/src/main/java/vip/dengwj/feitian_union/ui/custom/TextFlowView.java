@@ -13,6 +13,7 @@ import java.util.List;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.utils.LogUtils;
+import vip.dengwj.feitian_union.utils.SizeUtils;
 
 public class TextFlowView extends ViewGroup {
     public static final int DEFAULT_SPACE = 10;
@@ -42,8 +43,8 @@ public class TextFlowView extends ViewGroup {
         super(context, attrs, defStyleAttr);
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.TextFlowView);
 
-        horizontalSpace = ta.getInteger(R.styleable.TextFlowView_horizontalSpace, horizontalSpace);
-        verticalSpace = ta.getInteger(R.styleable.TextFlowView_verticalSpace, verticalSpace);
+        horizontalSpace = SizeUtils.dip2px(getContext(), ta.getInteger(R.styleable.TextFlowView_horizontalSpace, horizontalSpace));
+        verticalSpace = SizeUtils.dip2px(getContext(), ta.getInteger(R.styleable.TextFlowView_verticalSpace, verticalSpace));
         ta.recycle();
     }
 
@@ -75,6 +76,10 @@ public class TextFlowView extends ViewGroup {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+        if (getChildCount() == 0) {
+            return;
+        }
 
         // widthMeasureSpec 两部分组成，一个模式，一个值
         // 获取值

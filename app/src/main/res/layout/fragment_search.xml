@@ -2,12 +2,72 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#eeeeee">
 
-    <vip.dengwj.feitian_union.ui.custom.TextFlowView
-        android:id="@+id/text_flow_view"
+    <!--历史记录-->
+    <LinearLayout
+        android:id="@+id/history"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="搜索历史"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/img_del"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@mipmap/delete_icon"/>
+        </RelativeLayout>
+
+        <vip.dengwj.feitian_union.ui.custom.TextFlowView
+            android:id="@+id/history_text_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <!--推荐关键字-->
+    <LinearLayout
+        android:id="@+id/recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热门搜索"
+                android:layout_centerVertical="true"/>
+        </RelativeLayout>
+
+        <vip.dengwj.feitian_union.ui.custom.TextFlowView
+            android:id="@+id/recommend_text_flow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <!--搜索结果-->
 
     <!--<TextView-->
     <!--    android:layout_width="wrap_content"-->
