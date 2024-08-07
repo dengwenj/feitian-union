@@ -20,6 +20,9 @@
             android:hint="搜索你想搜的宝贝..."
             android:paddingLeft="20dp"
             android:textColorHint="#ccc"
+            android:imeOptions="actionSearch"
+            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="12dp" />
 
         <TextView

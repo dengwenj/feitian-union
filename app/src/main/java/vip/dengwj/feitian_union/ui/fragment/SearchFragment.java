@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,7 +33,7 @@ import vip.dengwj.feitian_union.utils.PresenterManager;
 import vip.dengwj.feitian_union.utils.ToastUtils;
 import vip.dengwj.feitian_union.view.SearchCallback;
 
-public class SearchFragment extends BaseFragment implements SearchCallback, TextWatcher {
+public class SearchFragment extends BaseFragment implements SearchCallback {
 
     private SearchPresenter searchPresenter;
     private FragmentSearchBinding searchBinding;
@@ -69,7 +71,33 @@ public class SearchFragment extends BaseFragment implements SearchCallback, Text
         editRightBtn = baseSearchLayout.findViewById(R.id.edit_right_btn);
         editRightBtn.setOnClickListener(this::handleEditRightBtn);
         editText = baseSearchLayout.findViewById(R.id.search_edit);
-        editText.addTextChangedListener(this);
+        // 搜索框变化的事件
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                keyWords = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        // 点击键盘的搜索
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    clickWordSearch(keyWords);
+                }
+                return false;
+            }
+        });
     }
 
     /**
@@ -79,6 +107,10 @@ public class SearchFragment extends BaseFragment implements SearchCallback, Text
     private void handleEditRightBtn(View view) {
         // 搜索
         if (editRightBtn.getText().equals("搜索")) {
+            if (keyWords == null || keyWords.trim().isEmpty()) {
+                ToastUtils.showToast("请输入内容");
+                return;
+            }
             HideInputUtil.hideOneInputMethod(getActivity(), editText);
             clickWordSearch(keyWords);
         } else {
@@ -153,6 +185,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback, Text
         searchPresenter.doSearch(word, false);
         // 更新搜索历史
         searchPresenter.getHistories();
+        editText.clearFocus();
     }
 
     /**
@@ -245,21 +278,5 @@ public class SearchFragment extends BaseFragment implements SearchCallback, Text
     @Override
     public void onEmpty() {
         setupState(State.EMPTY);
-    }
-
-    // 搜索框
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        keyWords = s.toString();
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
     }
 }
