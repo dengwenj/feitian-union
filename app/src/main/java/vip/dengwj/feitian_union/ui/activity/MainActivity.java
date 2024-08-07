@@ -3,20 +3,16 @@ package vip.dengwj.feitian_union.ui.activity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseActivity;
 import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.ActivityMainBinding;
-import vip.dengwj.feitian_union.ui.custom.TextFlowView;
 import vip.dengwj.feitian_union.ui.fragment.HomeFragment;
 import vip.dengwj.feitian_union.ui.fragment.RedPackedFragment;
 import vip.dengwj.feitian_union.ui.fragment.SearchFragment;
 import vip.dengwj.feitian_union.ui.fragment.SelectedFragment;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding> {
+public class MainActivity extends BaseActivity<ActivityMainBinding> implements IMainActivity {
     /**
      * 首先需要知道一个关键点，在启用ViewBinding后。每一个layout文件都会自动生成一份Java类。它会自动根据下划线进行驼峰命名。
      * 比如一个叫 activity_main_demo.xml 的布局文件，它对应自动生成的类叫ActivityMainDemoBinding。
@@ -65,6 +61,11 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
     }
 
     private void switchFragment(BaseFragment fragment) {
+        // 点相同的
+        if (lastFragment == fragment) {
+            return;
+        }
+
         // 修改成显示和隐藏方式，缓存起来
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         if (!fragment.isAdded()) {
@@ -94,5 +95,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> {
                 switchFragment(searchFragment);
             }
         });
+    }
+
+    /**
+     * 首页搜索跳转到搜索 bar
+     */
+    @Override
+    public void switch2Search() {
+        activitymainBinding.tabbar.getTabBarView().check(R.id.nav_search);
     }
 }

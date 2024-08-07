@@ -4,12 +4,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.FragmentActivity;
+
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
 import vip.dengwj.feitian_union.databinding.FragmentHomeBinding;
 import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.presenter.HomePresenter;
 import vip.dengwj.feitian_union.presenter.impl.HomePresenterImpl;
+import vip.dengwj.feitian_union.ui.activity.IMainActivity;
 import vip.dengwj.feitian_union.ui.adapter.HomePagerAdapter;
 import vip.dengwj.feitian_union.view.HomeCallback;
 
@@ -18,6 +21,7 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
     private HomePresenter homePresenter;
     private FragmentHomeBinding fragmentHomeBinding;
     private HomePagerAdapter homePagerAdapter;
+    private View rootView;
 
     @Override
     public int loadRootViewId() {
@@ -26,7 +30,8 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
 
     @Override
     public View loadRootView(LayoutInflater inflater, ViewGroup container) {
-        return inflater.inflate(R.layout.base_home_fragment_layout, container, false);
+        rootView = inflater.inflate(R.layout.base_home_fragment_layout, container, false);
+        return rootView;
     }
 
     /**
@@ -47,6 +52,21 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
     public void initPresenter() {
         homePresenter = new HomePresenterImpl();
         homePresenter.registerCallback(this);
+    }
+
+    @Override
+    public void initListener() {
+        super.initListener();
+        // 点击搜索
+        rootView.findViewById(R.id.edit_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentActivity activity = getActivity();
+                if (activity instanceof IMainActivity) {
+                    ((IMainActivity) activity).switch2Search();
+                }
+            }
+        });
     }
 
     /**

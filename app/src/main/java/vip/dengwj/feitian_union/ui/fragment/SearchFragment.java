@@ -111,7 +111,6 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
                 ToastUtils.showToast("请输入内容");
                 return;
             }
-            HideInputUtil.hideOneInputMethod(getActivity(), editText);
             clickWordSearch(keyWords);
         } else {
             // 取消
@@ -178,6 +177,7 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
      * 点击了搜索
      */
     private void clickWordSearch(String word) {
+        HideInputUtil.hideOneInputMethod(getActivity(), editText);
         keyWords = word;
         editRightBtn.setText("取消");
         editText.setText(keyWords);

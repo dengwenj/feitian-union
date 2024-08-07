@@ -48,6 +48,10 @@ public class Tabbar extends RelativeLayout {
         onCheckedChangeListener = listener;
     }
 
+    public RadioGroup getTabBarView() {
+        return controlTabbarBinding.nav;
+    }
+
     public interface OnCheckedChangeListener {
         void onCheckedChange(RadioGroup group, int checkedId);
     }
