@@ -1,5 +1,6 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -9,9 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
@@ -25,6 +28,7 @@ import vip.dengwj.feitian_union.databinding.FragmentSearchBinding;
 import vip.dengwj.feitian_union.model.domain.HomePagerContent;
 import vip.dengwj.feitian_union.presenter.SearchPresenter;
 import vip.dengwj.feitian_union.presenter.TicketPresenter;
+import vip.dengwj.feitian_union.ui.activity.IMainActivity;
 import vip.dengwj.feitian_union.ui.activity.TicketActivity;
 import vip.dengwj.feitian_union.ui.adapter.HomePagerItemAdapter;
 import vip.dengwj.feitian_union.utils.HideInputUtil;
@@ -53,6 +57,45 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
     public View loadRootView(LayoutInflater inflater, ViewGroup container) {
         baseSearchLayout = inflater.inflate(R.layout.base_search_fragment_layout, container, false);
         return baseSearchLayout;
+    }
+
+    // 页面启动
+    @Override
+    public void onStart() {
+        super.onStart();
+        searchShowKeyboard(false);
+    }
+
+    /**
+     * 显示和隐藏式触发
+     */
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        searchShowKeyboard(hidden);
+    }
+
+    /**
+     * 其他地方点击搜索进入该页面
+     */
+    private void searchShowKeyboard(boolean hidden) {
+        FragmentActivity activity = getActivity();
+        if (activity instanceof IMainActivity) {
+            IMainActivity mainActivity = (IMainActivity) activity;
+            // 不是点击搜索过来的就不执行了
+            if (!mainActivity.getIsSwitch2Search()) {
+                return;
+            }
+
+            // 显示时焦点聚焦
+            if (!hidden) {
+                editText.requestFocus();
+                // 弹起键盘
+                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+            }
+
+            mainActivity.setIsSwitch2Search(false);
+        }
     }
 
     @Override
@@ -107,10 +150,6 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
     private void handleEditRightBtn(View view) {
         // 搜索
         if (editRightBtn.getText().equals("搜索")) {
-            if (keyWords == null || keyWords.trim().isEmpty()) {
-                ToastUtils.showToast("请输入内容");
-                return;
-            }
             clickWordSearch(keyWords);
         } else {
             // 取消
@@ -177,6 +216,11 @@ public class SearchFragment extends BaseFragment implements SearchCallback {
      * 点击了搜索
      */
     private void clickWordSearch(String word) {
+        if (keyWords == null || keyWords.trim().isEmpty()) {
+            ToastUtils.showToast("请输入内容");
+            return;
+        }
+
         HideInputUtil.hideOneInputMethod(getActivity(), editText);
         keyWords = word;
         editRightBtn.setText("取消");

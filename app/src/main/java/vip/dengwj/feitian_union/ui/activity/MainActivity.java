@@ -11,6 +11,7 @@ import vip.dengwj.feitian_union.ui.fragment.HomeFragment;
 import vip.dengwj.feitian_union.ui.fragment.RedPackedFragment;
 import vip.dengwj.feitian_union.ui.fragment.SearchFragment;
 import vip.dengwj.feitian_union.ui.fragment.SelectedFragment;
+import vip.dengwj.feitian_union.utils.LogUtils;
 
 public class MainActivity extends BaseActivity<ActivityMainBinding> implements IMainActivity {
     /**
@@ -26,6 +27,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements I
     private SearchFragment searchFragment;
     private FragmentManager fragmentManager;
     private BaseFragment lastFragment;
+
+    private boolean isSwitch2Search = false;
 
     @Override
     public void initView() {
@@ -102,6 +105,17 @@ public class MainActivity extends BaseActivity<ActivityMainBinding> implements I
      */
     @Override
     public void switch2Search() {
+        isSwitch2Search = true;
         activitymainBinding.tabbar.getTabBarView().check(R.id.nav_search);
+    }
+
+    @Override
+    public boolean getIsSwitch2Search() {
+        return isSwitch2Search;
+    }
+
+    @Override
+    public void setIsSwitch2Search(boolean isSwitch2Search) {
+        this.isSwitch2Search = isSwitch2Search;
     }
 }
