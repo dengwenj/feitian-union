@@ -57,6 +57,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import vip.dengwj.feitian_union.R;
+import vip.dengwj.feitian_union.presenter.TicketPresenter;
+import vip.dengwj.feitian_union.utils.PresenterManager;
 
 // import vip.dengwj.feitian_union.R;
 
@@ -405,12 +407,21 @@ public class ScannerQrCodeActivity extends FragmentActivity {
 
         String result1 = result.getText();
         Log.v("二维码/条形码 扫描结果", result1);
-        if (mScanerListener == null) {
-            RxToast.success(result1);
-            initDialogResult(result);
-        } else {
-            mScanerListener.onSuccess("From to Camera", result);
-        }
+        String title = "80抽含75度酒精消毒湿巾办公家用卫生杀菌抑菌便携专用湿纸巾大包";
+        String cover = "//img.alicdn.com/bao/uploaded/i4/2214747680853/O1CN016NWVym1IAilEX8sKq_!!2214747680853.jpg";
+        String url = "//uland.taobao.com/coupon/edetail?e=FnOvgEHIosYNfLV8niU3R5TgU2jJNKOfc4SfXBF8mZrDX9bwJ%2BO88D4jG0XeQSYWvlcvNV7NgkvwEgtoIJ62645NBQeBHWW9P%2F8gPd7gzgq4bVlo0QJT9KZoQDJ5g3dSuW0p0HjZOStEuBdxZVSHgI9THTNkOjNE%2BuahTGPkBVaQLyYDPTlhfzY0Yzs62ET%2B3hCfIVUibMEVPsSMrKa5bUcUSFbN3ntPLZIv2qbvBO8In4Cn2%2B7v5alwxhJL5N%2FE6Ur28Ys%2BAtTLFl23ELNCiKJ7%2BkHL3AEW&app_pvid=59590_33.60.178.120_1007_1723108160655&ptl=floorId:86637;app_pvid:59590_33.60.178.120_1007_1723108160655;tpp_pvid:d254e577-fab7-4a8e-bfd4-cc27bdd0f532&union_lens=lensId%3AMAPI%401723108160%406708_86637_d254e577-fab7-4a8e-bfd4-cc27bdd0f532%401%40eyJmbG9vcklkIjo4NjYzN30ie%3Bscm%3A1007.15348.115058.6708_86637_d254e577-fab7-4a8e-bfd4-cc27bdd0f532";
+        TicketPresenter ticketPresenter = PresenterManager.getInstance().getTicketPresenter();
+        ticketPresenter.getTicket(title, url, cover);
+        Intent intent = new Intent(getBaseContext(), TicketActivity.class);
+        startActivity(intent);
+        finish();
+
+        // if (mScanerListener == null) {
+        //     RxToast.success(result1);
+        //     initDialogResult(result);
+        // } else {
+        //     mScanerListener.onSuccess("From to Camera", result);
+        // }
     }
     //==============================================================================================解析结果 及 后续处理 end
 
