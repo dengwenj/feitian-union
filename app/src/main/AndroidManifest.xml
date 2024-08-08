@@ -29,7 +29,7 @@
             android:launchMode="singleTop" />
         
         <activity
-            android:name="com.vondear.rxfeature.activity.ActivityScanerCode" />
+            android:name=".ui.activity.ScannerQrCodeActivity" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true"

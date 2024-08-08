@@ -16,6 +16,7 @@ import vip.dengwj.feitian_union.model.domain.Categories;
 import vip.dengwj.feitian_union.presenter.HomePresenter;
 import vip.dengwj.feitian_union.presenter.impl.HomePresenterImpl;
 import vip.dengwj.feitian_union.ui.activity.IMainActivity;
+import vip.dengwj.feitian_union.ui.activity.ScannerQrCodeActivity;
 import vip.dengwj.feitian_union.ui.adapter.HomePagerAdapter;
 import vip.dengwj.feitian_union.view.HomeCallback;
 
@@ -75,7 +76,7 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
         rootView.findViewById(R.id.scan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(), ActivityScanerCode.class));
+                startActivity(new Intent(getContext(), ScannerQrCodeActivity.class));
             }
         });
     }
