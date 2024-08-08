@@ -1,10 +1,13 @@
 package vip.dengwj.feitian_union.ui.fragment;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.FragmentActivity;
+
+import com.vondear.rxfeature.activity.ActivityScanerCode;
 
 import vip.dengwj.feitian_union.R;
 import vip.dengwj.feitian_union.base.BaseFragment;
@@ -67,6 +70,14 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
                 }
             }
         });
+
+        // 点击扫码
+        rootView.findViewById(R.id.scan).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), ActivityScanerCode.class));
+            }
+        });
     }
 
     /**
@@ -84,7 +95,8 @@ public class HomeFragment extends BaseFragment implements HomeCallback {
     public void onCategoriesLoaded(Categories categories) {
         setupState(State.SUCCESS);
         if (homePagerAdapter != null) {
-            // 加载多少个，默认是多一个
+            // viewPager.setOffscreenPageLimit(3); // 缓存当前页左右各2个页面，总共3个
+            // 加载多少个，默认是多一个，TODO 可以进行缓存
             // fragmentHomeBinding.homeViewPager.setOffscreenPageLimit(categories.getData().size());
             homePagerAdapter.setCategory(categories);
         }

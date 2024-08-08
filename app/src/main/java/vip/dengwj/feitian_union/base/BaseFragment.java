@@ -26,7 +26,6 @@ public abstract class BaseFragment extends Fragment {
         NONE, LOADING, SUCCESS, ERROR, EMPTY
     }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

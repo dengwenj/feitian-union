@@ -50,7 +50,6 @@ public class HomePagerFragment extends BaseFragment
         bundle.putString(Constants.KEY_HOME_PAGER_TITLE, category.getTitle());
         bundle.putInt(Constants.KEY_HOME_PAGER_MATERIAL_ID, category.getMaterialId());
         homePagerFragment.setArguments(bundle);
-
         return homePagerFragment;
     }
 
@@ -206,8 +205,6 @@ public class HomePagerFragment extends BaseFragment
 
     @Override
     public void onContentLoaded(List<HomePagerContent.DataBean.ListBean> list) {
-        LogUtils.d(HomePagerFragment.class, "HomePagerFragment -> list ：" + list);
-
         // 更新 UI
         pagerItemAdapter.setData(list);
         setupState(State.SUCCESS);

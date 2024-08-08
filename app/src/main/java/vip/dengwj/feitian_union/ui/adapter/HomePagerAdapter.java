@@ -15,6 +15,8 @@ import vip.dengwj.feitian_union.ui.fragment.HomePagerFragment;
 public class HomePagerAdapter extends FragmentPagerAdapter {
     private final List<Categories.DataBean> list = new ArrayList<>();
 
+    private List<Fragment> fragments;
+
     public HomePagerAdapter(@NonNull FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
@@ -22,6 +24,10 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
+        // TODO 根据不同的翻页展示不同的内容
+        // if (position == 2) {
+        //     return new RedPackedFragment();
+        // }
         return HomePagerFragment.newInstance(list.get(position), position);
     }
 
